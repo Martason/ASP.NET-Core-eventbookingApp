@@ -12,9 +12,9 @@ namespace EventiaWebapp.Controllers
         {
             return View("AllEvents");
         }
-        public IActionResult MyEvents()
+        public IActionResult MyEvents(int id)
         {
-            return View("MyEvents");
+            return View("MyEvents", id);
         }
     }
 }

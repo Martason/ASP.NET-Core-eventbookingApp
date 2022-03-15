@@ -27,6 +27,7 @@ namespace EventiaWebapp.Services
         {
             return true;
         }
+
         // En metod som returnerar en lista på alla events ett givet deltagar objekt registrerat sig på
         public List<Event> GetAttendeeForEvent(Attendee attendee)
         {
@@ -35,6 +36,39 @@ namespace EventiaWebapp.Services
 
             return _EventList;
 
+        }
+
+        public EventsHandler()
+        {
+            var organizer = new Organizer {Name = "Boardgames AB", Email = "info@boardgame.se"};
+
+            EventsList = new List<Event>()
+            {
+                new Event
+                {
+                    Title = "GameEvent1", Date = new DateTime(2022, 06, 15), Place = "Göteborg",
+                    Adress = "Föreningsgatan 14, 411 28 Göteborg", SpotsAvalable = 6,
+                    Organizer = organizer
+                },
+                new Event
+                {
+                    Title = "GameEvent2", Date = new DateTime(2022, 07, 15), Place = "Göteborg",
+                    Adress = "Föreningsgatan 14, 411 28 Göteborg", SpotsAvalable = 6,
+                    Organizer = organizer
+                },
+                new Event
+                {
+                    Title = "GameEvent3", Date = new DateTime(2022, 08, 15), Place = "Göteborg",
+                    Adress = "Föreningsgatan 14, 411 28 Göteborg", SpotsAvalable = 6,
+                    Organizer = organizer
+                },
+                new Event
+                {
+                    Title = "GameEvent4", Date = new DateTime(2022, 09, 15), Place = "Göteborg",
+                    Adress = "Föreningsgatan 14, 411 28 Göteborg", SpotsAvalable = 6,
+                    Organizer = organizer
+                },
+            };
         }
 
     }

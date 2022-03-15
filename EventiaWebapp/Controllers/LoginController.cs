@@ -6,7 +6,7 @@ namespace EventiaWebapp.Controllers
     {
         public IActionResult Index()
         {
-            return View("Index");
+            return Redirect("https://localhost:7086/");
         }
     }
 }
