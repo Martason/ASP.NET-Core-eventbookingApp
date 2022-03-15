@@ -8,10 +8,11 @@ namespace EventiaWebapp.Models
         public string Title { get; set; }
 
         public DateTime Date { get; set; }
-
         public string Place { get; set; }
         public string Adress { get; set; }
         public int SpotsAvalable { get; set; }
+
+        public string Info { get; set; }
 
         [Required]
         public Organizer Organizer { get; set; }
