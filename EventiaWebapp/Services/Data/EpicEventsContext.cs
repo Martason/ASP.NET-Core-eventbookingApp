@@ -38,7 +38,6 @@ namespace EventiaWebapp.Services.Data
                 entity.HasIndex(e => e.Name).IsUnique();
                 entity.HasIndex(e => e.Email).IsUnique();
             });
-
         }
 
 

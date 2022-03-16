@@ -1,6 +1,7 @@
 ﻿@using EventiaWebapp.Services
 
 @inject EventsHandler _eventHandler
+<div class="AllEventsMain">
 
 <h1>Upcoming events!</h1>
 
@@ -11,20 +12,35 @@
         <div class="accordion-item">
             <h2 class="accordion-header" id="flush-heading-@i">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-@i" aria-expanded="false" aria-controls="flush-collapse-@i">
-                    @_eventHandler.EventsList[i].Title | @_eventHandler.EventsList[i].Date.ToString("M") | @_eventHandler.EventsList[i].Place 
+                    @_eventHandler.EventsList[i].Title | @_eventHandler.EventsList[i].Date.ToString("M") | @_eventHandler.EventsList[i].Place
                 </button>
             </h2>
             <div id="flush-collapse-@i" class="accordion-collapse collapse" aria-labelledby="flush-headin-@i" data-bs-parent="#accordionFlushExample">
                 <div class="accordion-body">
-                    <h3> Seats: @_eventHandler.EventsList[i].SpotsAvalable Organiser: @_eventHandler.EventsList[i].Organizer.Name </h3>
-
-                    @_eventHandler.EventsList[i].Info
+                    
+                        <h3>@_eventHandler.EventsList[i].Title | @_eventHandler.EventsList[i].Date.ToString("M") | @_eventHandler.EventsList[i].Place</h3>
+                       
+                   
+                    <h4> Seats: @_eventHandler.EventsList[i].SpotsAvalable Time @_eventHandler.EventsList[i].Date.ToString("t")</h4>    
+                <p>@_eventHandler.EventsList[i].Info</p>
+                <div class="accordion-upper-body">
+                    <p class="accordion-organiser"> @_eventHandler.EventsList[i].Organizer.Name</p>
+                    <a asp-controller="Events" asp-action="JoinEvent" asp-route-id="@_eventHandler.EventsList[i].Id" class="btn btn-dark accordion-join-btn">Join</a>
                 </div>
-                <button>Join event</button>
+                </div>
+              
             </div>
-     
         </div>
-
     }
 </div>
+</div>
+
+@*
+    "accordion-header eller accordion-button collapsed
+    accordion-body h3
+    accordion-body h4
+    accordion-body p
+    accordion-organiser
+    accordion-join-btn
+*@
 
