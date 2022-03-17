@@ -10,8 +10,8 @@ namespace EventiaWebapp.Services.Data
         }
 
         public EpicEventsContext(DbContextOptions<EpicEventsContext> options) : base(options)
-        {
-        }
+         {
+         }
 
 
         //För att säga vilka C# klasser som ska tolkas som databastabeller.
@@ -22,7 +22,7 @@ namespace EventiaWebapp.Services.Data
         //För att styra anslutningen till databasservern.
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Database=EpicEventDb");
+           // optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Database=EpicEventDb");
         }
 
         //För att i detalj beskriva tabellerna och deras förhållanden.

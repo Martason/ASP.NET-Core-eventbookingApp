@@ -16,12 +16,19 @@ Detta är en mall eller "template" för alla våra sidor. Här skriver vi all HT
         rel="stylesheet" 
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" 
         crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=League+Gothic&family=Montserrat&family=Roboto:wght@300&display=swap" rel="stylesheet">
     <style>
-        <style>
+        * {
+            font-family: 'League Gothic', sans-serif;
+            font-size: 25px;
+        }
         html, body {
              height: 100vh;
              min-height: 100vh;
-             font-family: 'Montserrat', sans-serif;
+             
+            
          }
         .main-grid-layout {
             display: grid;
@@ -37,6 +44,9 @@ Detta är en mall eller "template" för alla våra sidor. Här skriver vi all HT
             grid-row: 1/2;
 
             padding: 20px;
+        }
+        h1 {
+            text-shadow: 4px 4px #e2fafc;
         }
         nav {
             display: flex;
@@ -66,6 +76,50 @@ Detta är en mall eller "template" för alla våra sidor. Här skriver vi all HT
         .accordion-upper-body {
             display: flex;
             justify-content: space-between
+        }
+       
+        .accordion-button:not(.collapsed) {
+            color: #642188;
+            background-color: #e2fafc;
+            border-color: #212529;
+            border: solid 1px #212529;
+            
+        }
+       
+        .accordion-button:focus {
+            box-shadow: none;
+        }
+        
+
+        .homeMain {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            height: 500px;
+            font-size: 15px;
+        }
+        .joinEventMainDiv {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+        }
+        .card {
+            border: none;
+        }
+        .card-body {
+            margin: auto 20px auto 20px;
+        }
+        .knapp {
+            color: #642188;
+            background-color: #e2fafc;
+            border-color: #212529;
+        }
+        .infoText {
+           font-family: 'Montserrat', sans-serif;
         }
     </style>
 

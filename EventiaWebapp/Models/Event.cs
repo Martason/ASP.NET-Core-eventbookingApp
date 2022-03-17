@@ -13,7 +13,7 @@ namespace EventiaWebapp.Models
         public int SpotsAvalable { get; set; }
 
         public string InfoLong { get; set; }
-        //public string? InfoShort { get; set; }
+        public string InfoShort { get; set; }
 
         [Required]
         public Organizer Organizer { get; set; }

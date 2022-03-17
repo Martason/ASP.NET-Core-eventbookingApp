@@ -24,10 +24,10 @@
                         <h3>@eventList[i].Title | @eventList[i].Date.ToString("M") | @eventList[i].Place</h3>
 
                         <h4> Seats: @eventList[i].SpotsAvalable Time @eventList[i].Date.ToString("t")</h4>    
-                        <p>@eventList[i].InfoLong</p>
+                        <p class="infoText">@eventList[i].InfoShort</p>
                         <div class="accordion-upper-body">
-                            <p class="accordion-organiser"> @eventList[i].Organizer.Name</p>
-                            <a asp-controller="Events" asp-action="JoinEvent" asp-route-id="@eventList[i].Id" class="btn btn-dark accordion-join-btn">Join</a>
+                            <p class="accordion-organiser">@eventList[i].Organizer.Name</p>
+                            <a asp-page="/JoinEvent" asp-route-id="@eventList[i].Id" class="btn btn-dark knapp accordion-join-btn">Join</a>
                         </div>
                     </div>
               
