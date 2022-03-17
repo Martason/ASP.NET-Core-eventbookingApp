@@ -13,9 +13,10 @@ var builder = WebApplication.CreateBuilder(args);
 //builder.Services finns i både razor och mvp men använder olika metoder
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-builder.Services.AddSingleton<EventsHandler>(); //service registrerad, med i systemet och jag kan plocka fram det i mitt program.
+builder.Services.AddScoped<EventsHandler>(); //service registrerad, med i systemet och jag kan plocka fram det i mitt program.
 builder.Services.AddDbContext<EpicEventsContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("EpicEventsContext")));
+     options.UseSqlServer(builder.Configuration.GetConnectionString("EpicEventsContext")));
+
 #endregion
 
 
@@ -27,10 +28,10 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
 
-    SeedData.Initialize(services);
+    SeedTestData.Initialize(services);
 }
 
-//standard i razor och mvp
+//standard i razor och mvp. Tittar efter
 app.UseRouting();
 
 //Mappning
@@ -38,25 +39,25 @@ app.UseRouting();
 
 //Mest generella routen sist, 
 
-//Events//MyEvents
+//MyEvents
 app.MapControllerRoute(
     name: "Events",
     pattern: "myEvents/{id:int?}",
     defaults: new { controller = "Events", action = "MyEvents" }
 );
 
-//Events//JoinEvent
+//JoinEvent
 app.MapControllerRoute(
-    name: "Events",
+    name: "JoinEvents",
     pattern: "JoinEvent/{id:int?}",
     defaults: new { controller = "Events", action = "JoinEvent" }
 );
 
-//Events//AllEvents
+//AllEvents
 app.MapControllerRoute(
-    name: "Events",
+    name: "AllEvents",
     pattern: "AllEvents/",
-    defaults: new { controller = "Events", action = "AllEvents" }
+    defaults: new { controller = "Events", action = "Index" }
 );
 
 //Login/
@@ -67,10 +68,10 @@ app.MapControllerRoute(
 );
 
 // Default route
-////Events/
+/////
 app.MapControllerRoute(
 name: "default",
-pattern: "{controller=Events}/{action=Index}"
+pattern: "{controller}/{action=Index}"
 );
 
 //specifick för Razor pages

@@ -1,19 +1,47 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-   
-}
+﻿
+@using EventiaWebapp.Services
 
-<h1>Epic Events</h1>
-<div>
-    <p>
-        "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque 
-        laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi 
-        architecto beatae vitae dicta sunt explicabo.
-    </p>
+@inject EventsHandler _eventHandler
+<div class="AllEventsMain">
+
+    <h1>Upcoming events!</h1>
+
+    @{ var eventList = _eventHandler.GetEventList();
+    }
+    <div class="accordion accordion-flush" id="accordionFlushExample">
+        @for (int i = 0; i < eventList.Count; i++)
+        {
+        
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-heading-@i">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-@i" aria-expanded="false" aria-controls="flush-collapse-@i">
+                        @eventList[i].Title | @eventList[i].Date.ToString("M") | @eventList[i].Place
+                    </button>
+                </h2>
+                <div id="flush-collapse-@i" class="accordion-collapse collapse" aria-labelledby="flush-headin-@i" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">
+                    
+                        <h3>@eventList[i].Title | @eventList[i].Date.ToString("M") | @eventList[i].Place</h3>
+
+                        <h4> Seats: @eventList[i].SpotsAvalable Time @eventList[i].Date.ToString("t")</h4>    
+                        <p>@eventList[i].InfoLong</p>
+                        <div class="accordion-upper-body">
+                            <p class="accordion-organiser"> @eventList[i].Organizer.Name</p>
+                            <a asp-controller="Events" asp-action="JoinEvent" asp-route-id="@eventList[i].Id" class="btn btn-dark accordion-join-btn">Join</a>
+                        </div>
+                    </div>
+              
+                </div>
+            </div>
+        }
+    </div>
 </div>
-<div>
-    <button>Register</button>
-    <button>Log In</button>
-</div>
+
+@*
+    "accordion-header eller accordion-button collapsed
+    accordion-body h3
+    accordion-body h4
+    accordion-body p
+    accordion-organiser
+    accordion-join-btn
+*@

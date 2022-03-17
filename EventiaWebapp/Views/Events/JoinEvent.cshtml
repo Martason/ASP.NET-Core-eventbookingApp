@@ -19,7 +19,7 @@ The ViewData dictionary is a dynamic object that provides a convenient late-boun
     <img src="/Views/Events/Images/javier-martinez-hUD0PUczwJQ-unsplash.jpg" class="card-img-top" alt="...">
     <div class="card-body">
         <h5 class="card-title">@Model.Title</h5>
-        <p class="card-text">@Model.Info</p>
+        <p class="card-text">@Model.InfoLong</p>
     </div>
     <ul class="list-group list-group-flush">
         <li class="list-group-item">@Model.Date)</li>
@@ -36,7 +36,7 @@ The ViewData dictionary is a dynamic object that provides a convenient late-boun
     <img src="Images/javier-martinez-hUD0PUczwJQ-unsplash.jpg" class="card-img-top" alt="...">
     <div class="card-body">
         <h5 class="card-title">@Html.DisplayNameFor(Model => Model.Title))</h5>
-        <p class="card-text">@Html.DisplayNameFor(Model => Model.Info)</p>
+        <p class="card-text">@Html.DisplayNameFor(Model => Model.InfoLong)</p>
     </div>
     <ul class="list-group list-group-flush">
         <li class="list-group-item">@Html.DisplayNameFor(Model => Model.Date.ToString("f"))</li>

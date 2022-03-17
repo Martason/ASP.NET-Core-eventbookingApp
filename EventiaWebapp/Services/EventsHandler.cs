@@ -14,9 +14,9 @@ namespace EventiaWebapp.Services
         public List<Event> EventsList { get; set; }
         public List<Attendee> AttendeesList { get; set; }
 
-        public List<Event> GetEvents()
+        public List<Event> GetEventList()
         {
-            return EventsList;
+            return _context.Events.ToList();
         }
 
         // public async Task<List<Event>> GetEventsAsync()
@@ -27,9 +27,9 @@ namespace EventiaWebapp.Services
         //     return EventsList;
         // }
 
-        public List<Attendee> GetAttendees()
+        public Attendee GetAttendee()
         {
-            return AttendeesList;
+            return _context.Attendees.FirstOrDefault();
         }
 
         public bool JoinEvent(Event evt, Attendee attendee)
@@ -46,10 +46,9 @@ namespace EventiaWebapp.Services
 
         }
 
-        public EventsHandler()
+        public EventsHandler(EpicEventsContext context)
         {
-            // EpicEventsContext context
-            // _context = context;
+            _context = context;
 
             var organizer = new Organizer {Name = "Boardgames AB", Email = "info@boardgame.se"};
 
@@ -60,7 +59,7 @@ namespace EventiaWebapp.Services
                     Title = "Gameing Event1", Date = new DateTime(2022, 06, 15, 18, 30, 00), Place = "Göteborg",
                     Adress = "Föreningsgatan 14, 411 28 Göteborg", SpotsAvalable = 6,
                     Organizer = organizer,Id=1,
-                    Info =
+                    InfoLong =
                         "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful"
                 },
                 new Event
@@ -68,7 +67,7 @@ namespace EventiaWebapp.Services
                     Title = "Gameing Event2", Date = new DateTime(2022, 07, 15, 17, 30, 00), Place = "Göteborg",
                     Adress = "Föreningsgatan 14, 411 28 Göteborg", SpotsAvalable = 6,
                     Organizer = organizer,Id=2,
-                    Info =
+                    InfoLong =
                         "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful"
 
                 },
@@ -77,7 +76,7 @@ namespace EventiaWebapp.Services
                     Title = "Gameing Event3", Date = new DateTime(2022, 08, 15, 20, 30, 00), Place = "Göteborg",
                     Adress = "Föreningsgatan 14, 411 28 Göteborg", SpotsAvalable = 6,
                     Organizer = organizer, Id=3,
-                    Info =
+                    InfoLong =
                         "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful"
 
                 },
@@ -86,7 +85,7 @@ namespace EventiaWebapp.Services
                     Title = "Gameing Event4", Date = new DateTime(2022, 09, 15, 15, 30, 00), Place = "Göteborg",
                     Adress = "Föreningsgatan 14, 411 28 Göteborg", SpotsAvalable = 6,
                     Organizer = organizer, Id=4,
-                    Info =
+                    InfoLong =
                         "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful"
 
                 },

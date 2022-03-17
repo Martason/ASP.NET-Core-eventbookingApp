@@ -25,10 +25,7 @@ namespace EventiaWebapp.Controllers
         {
             return View("Index");
         }
-        public IActionResult AllEvents()
-        {
-            return View("AllEvents");
-        }
+
         public IActionResult MyEvents(Attendee? attendeeId)
         {
             if (attendeeId == null)
