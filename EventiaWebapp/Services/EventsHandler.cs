@@ -23,7 +23,6 @@ namespace EventiaWebapp.Services
             _context = context;
         }
 
-
         public List<Event> GetEventList()
         {
             return _context.Events.Include(e=>e.Organizer).ToList();

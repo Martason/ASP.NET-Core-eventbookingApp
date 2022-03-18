@@ -7,8 +7,10 @@ using Microsoft.EntityFrameworkCore;
 
 
 //Dependency Injection container
+//TODO fråga. I datalaggring så använder vi ingen builder. Utan vi körde services = new ServiceCollection
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 //builder.Services finns i både razor och mvp men använder olika metoder
 builder.Services.AddControllersWithViews();
@@ -17,6 +19,7 @@ builder.Services.AddScoped<EventsHandler>(); //service registrerad, med i system
 builder.Services.AddDbContext<EpicEventsContext>(options =>
      options.UseSqlServer(builder.Configuration.GetConnectionString("EpicEventsContext")));
 
+
 #endregion
 
 
@@ -24,6 +27,8 @@ builder.Services.AddDbContext<EpicEventsContext>(options =>
 
 var app = builder.Build();
 
+//Dependecy are registred in containers, and the container in asp.net core is IServiceProvider
+//TODO kan jag lägga till och registrera den här servicen där uppe istället? 
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;

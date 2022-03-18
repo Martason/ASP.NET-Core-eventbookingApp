@@ -1,5 +1,28 @@
 ﻿
 @using EventiaWebapp.Services
+@section bottom_of_head{
+    <style>
+
+        .accordion-item * {
+            font-size: 20px;
+        }
+        .accordion-upper-body {
+            display: flex;
+            justify-content: space-between
+        }
+       
+        .accordion-button:not(.collapsed) {
+            color: #642188;
+            background-color: #e2fafc;
+            border-color: #212529;
+            border: solid 1px #212529;
+        }
+       
+        .accordion-button:focus {
+            box-shadow: none;
+        }
+    </style>
+}
 
 @inject EventsHandler _eventHandler
 <div class="AllEventsMain">

@@ -1,6 +1,17 @@
 ﻿@page "{id}"
 @model EventiaWebapp.Pages.JoinEventModel
-@{
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers 
+@addTagHelper *, AuthoringTagHelpers
+@*TODO flytta dessa*@
+@section bottom_of_head{
+    <style>
+        .card {
+            border: none;
+        }
+        .card-body {
+            margin: auto 20px auto 20px;
+        }
+    </style>
 }
 
 <div class="joinEventMainDiv">
@@ -19,7 +30,7 @@
     </ul>
     <div class="card-body">
         <a asp-controller="Events" asp-action="Confirmation" asp-route-id="@Model.evt.Id" class="btn btn-dark knapp">Join this event</a>
-        <a asp-controller="Events" asp-action="AllEvents" class="btn btn-dark knapp">Back</a>
+        <a asp-controller="Events" asp-action="Index" class="btn btn-dark knapp">Back</a>
     </div>
 </div>
 </div>
