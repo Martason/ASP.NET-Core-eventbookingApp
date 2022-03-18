@@ -39,12 +39,13 @@ namespace EventiaWebapp.Services
         {
             using var context = factory.CreateDbContext();
 
-            var query = context.Events.Where(e => e.Id == id);
+            var query = context.Events.Where(e => e.Id == id).Include(e=>e.Attendees);
 
             var evt = query.FirstOrDefault();
             if (evt == null) return false;
 
-            var attendee = GetAttendee();
+            var query2 = context.Attendees.Include(a => a.Event).FirstOrDefault();
+            var attendee = query2;
 
 
             attendee.Event.Add(evt);
@@ -61,6 +62,7 @@ namespace EventiaWebapp.Services
 
 
             //TODO Måste felhantera på nått sätt
+            //TODO Query 2 va fan?! :P Veroica och Joakim
 
 
         }
