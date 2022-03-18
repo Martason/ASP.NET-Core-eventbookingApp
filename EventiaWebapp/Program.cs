@@ -16,7 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<EventsHandler>(); //service registrerad, med i systemet och jag kan plocka fram det i mitt program.
-builder.Services.AddDbContext<EpicEventsContext>(options =>
+builder.Services.AddDbContextFactory<EpicEventsContext>(options =>
      options.UseSqlServer(builder.Configuration.GetConnectionString("EpicEventsContext")));
 
 
@@ -35,6 +35,7 @@ using (var scope = app.Services.CreateScope())
 
     SeedTestData.Initialize(services);
 }
+var test = app.Services.GetService<EventHandler>();
 
 //standard i razor och mvp. Tittar efter
 app.UseRouting();

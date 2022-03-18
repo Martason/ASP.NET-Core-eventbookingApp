@@ -17,5 +17,19 @@ namespace EventiaWebapp.Pages
         {
            evt = _eventsHandler.GetEventList().Find(e => e.Id == id);
         }
+
+        public IActionResult OnPost(int id)
+        {
+            if (_eventsHandler.ConfirmBooking(id))
+            {
+                return RedirectToPage("ConfirmedBooking");
+            }
+            
+            return NotFound("404");
+            
+
+
+            
+        }
     }
 }

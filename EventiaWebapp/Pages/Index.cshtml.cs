@@ -12,8 +12,7 @@ namespace EventiaWebapp.Pages
 
         public void OnPost()
         {
-            //för att fånga information
-            //fånga data från en form tex
+            
         }
     }
 }

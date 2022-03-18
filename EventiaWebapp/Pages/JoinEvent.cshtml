@@ -29,7 +29,9 @@
         <li class="list-group-item">Brought to you by @Model.evt.Organizer.Name</li>
     </ul>
     <div class="card-body">
-        <a asp-controller="Events" asp-action="Confirmation" asp-route-id="@Model.evt.Id" class="btn btn-dark knapp">Join this event</a>
+        <form method="post" asp-route-id="@Model.evt.Id"> <button class="btn btn-dark knapp">Join this event</button>
+           
+            </form>
         <a asp-controller="Events" asp-action="Index" class="btn btn-dark knapp">Back</a>
     </div>
 </div>

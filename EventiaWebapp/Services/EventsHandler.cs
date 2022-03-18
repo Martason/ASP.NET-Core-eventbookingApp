@@ -10,49 +10,59 @@ namespace EventiaWebapp.Services
         // Metod som returnerar en defoult deltagarlista (alltid samma i denna uppgift)
         // En metod som registerar ett givet deltagatobjekt med att givet eventobjekt
         //join
-       /*
-        *
-        */
+        /*
+         *
+         */
         // En metod som returnerar en lista på alla events ett givet deltagar objekt registrerat sig på
 
-        private readonly EpicEventsContext _context;
+        private IDbContextFactory<EpicEventsContext> factory;
         public List<Event> EventsList { get; set; }
-    
-        public EventsHandler(EpicEventsContext context)
+
+        public EventsHandler(IDbContextFactory<EpicEventsContext> factory)
         {
-            _context = context;
+            this.factory = factory;
         }
 
         public List<Event> GetEventList()
         {
-            return _context.Events.Include(e=>e.Organizer).ToList();
+            using var context = factory.CreateDbContext();
+            return context.Events.Include(e => e.Organizer).ToList();
         }
-
-        // public async Task<List<Event>> GetEventsAsync()
-        // {
-        //     var query = _context.Events.Where(e => e.Date > DateTime.UtcNow).ToList();
-        //     EventsList = query;
-        //
-        //     return EventsList;
-        // }
 
         public Attendee GetAttendee()
         {
-            return _context.Attendees.FirstOrDefault();
+            using var context = factory.CreateDbContext();
+            return context.Attendees.FirstOrDefault();
         }
 
-    
-
-        public List<Event> GetAttendeeForEvent(Attendee attendee)
+        public bool ConfirmBooking(int id)
         {
-            var _EventList = EventsList.Where(e
-                => (e.Attendees == attendee)).ToList();
+            using var context = factory.CreateDbContext();
 
-            return _EventList;
+            var query = context.Events.Where(e => e.Id == id);
+
+            var evt = query.FirstOrDefault();
+            if (evt == null) return false;
+
+            var attendee = GetAttendee();
+
+
+            attendee.Event.Add(evt);
+            evt.Attendees.Add(attendee);
+
+            context.Update(attendee);
+            context.Update(evt);
+            context.SaveChanges();
+
+
+            return true;
+
+
+
+
+            //TODO Måste felhantera på nått sätt
+
 
         }
-
-    
-
     }
 }
