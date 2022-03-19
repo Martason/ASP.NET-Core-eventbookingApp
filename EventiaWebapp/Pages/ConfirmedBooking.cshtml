@@ -1,6 +1,8 @@
-﻿@page
+﻿@page "{id}"
 @model EventiaWebapp.Pages.ConfirmedBookingModel
 @{
 }
+<h1>Du är bokad</h1>
 
-<h1>DU ÄR BOOKAD!</h1>
+
+<h1>@Model.Evt.Attendees.First() du är bokad på @Model.Evt.Title den @Model.Evt.Date.ToString("f")!</h1>

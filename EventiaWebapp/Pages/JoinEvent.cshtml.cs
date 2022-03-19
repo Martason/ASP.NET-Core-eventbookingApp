@@ -22,7 +22,7 @@ namespace EventiaWebapp.Pages
         {
             if (_eventsHandler.ConfirmBooking(id))
             {
-                return RedirectToPage("ConfirmedBooking");
+                return RedirectToPage("ConfirmedBooking", id);
             }
             
             return NotFound("404");

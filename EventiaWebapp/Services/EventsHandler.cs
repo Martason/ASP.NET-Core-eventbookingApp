@@ -44,24 +44,21 @@ namespace EventiaWebapp.Services
             var evt = query.FirstOrDefault();
             if (evt == null) return false;
 
-            var query2 = context.Attendees.Include(a => a.Event).FirstOrDefault();
-            var attendee = query2;
+            var query2 = context.Attendees.Include(a => a.Event);
+            var attendee = query2.FirstOrDefault();
 
-
+            if (attendee == null) return false;
+            
             attendee.Event.Add(evt);
             evt.Attendees.Add(attendee);
 
             context.Update(attendee);
+
             context.Update(evt);
             context.SaveChanges();
 
-
             return true;
 
-
-
-
-            //TODO Måste felhantera på nått sätt
             //TODO Query 2 va fan?! :P Veroica och Joakim
 
 
