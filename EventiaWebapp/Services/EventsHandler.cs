@@ -9,14 +9,9 @@ namespace EventiaWebapp.Services
         // Metod som returnerar en lista på alla events
         // Metod som returnerar en defoult deltagarlista (alltid samma i denna uppgift)
         // En metod som registerar ett givet deltagatobjekt med att givet eventobjekt
-        //join
-        /*
-         *
-         */
         // En metod som returnerar en lista på alla events ett givet deltagar objekt registrerat sig på
 
         private IDbContextFactory<EpicEventsContext> factory;
-        public List<Event> EventsList { get; set; }
 
         public EventsHandler(IDbContextFactory<EpicEventsContext> factory)
         {

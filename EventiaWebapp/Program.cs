@@ -6,19 +6,25 @@ using EventiaWebapp.Services.Data;
 using Microsoft.EntityFrameworkCore;
 
 
-//Dependency Injection container
-//TODO fråga. I datalaggring så använder vi ingen builder. Utan vi körde services = new ServiceCollection
-
 var builder = WebApplication.CreateBuilder(args);
 
 
 //builder.Services finns i både razor och mvp men använder olika metoder
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-builder.Services.AddScoped<EventsHandler>(); //service registrerad, med i systemet och jag kan plocka fram det i mitt program.
 builder.Services.AddDbContextFactory<EpicEventsContext>(options =>
-     options.UseSqlServer(builder.Configuration.GetConnectionString("EpicEventsContext")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("EpicEventsContext")));
+builder.Services.AddScoped<EventsHandler>(); //service registrerad, med i systemet och jag kan plocka fram det i mitt program.
+builder.Services.AddSingleton<DatabaseHandler>();
 
+
+//TODO fråga. Varför måste jag registrera min DatabaseHandler som en Singelton?
+/*
+ * You registered the XXXXXXX as a scoped service, in the Startup class.
+ * This means that you can not inject it as a constructor parameter in Middleware because
+ * only Singleton services can be resolved by constructor injection in Middleware.
+ * You should move the dependency to the Invoke method like this:
+ */
 
 #endregion
 
@@ -27,17 +33,11 @@ builder.Services.AddDbContextFactory<EpicEventsContext>(options =>
 
 var app = builder.Build();
 
-//Dependecy are registred in containers, and the container in asp.net core is IServiceProvider
-//TODO kan jag lägga till och registrera den här servicen där uppe istället? 
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
+var remove = app.Services.GetService<DatabaseHandler>();
 
-    SeedTestData.Initialize(services);
-}
-var test = app.Services.GetService<EventHandler>();
+remove.Recreate();
+remove.SeedTestData();
 
-//standard i razor och mvp. Tittar efter
 app.UseRouting();
 
 //Mappning
@@ -50,13 +50,6 @@ app.MapControllerRoute(
     name: "Events",
     pattern: "myEvents/{id:int?}",
     defaults: new { controller = "Events", action = "MyEvents" }
-);
-
-//JoinEvent
-app.MapControllerRoute(
-    name: "JoinEvents",
-    pattern: "JoinEvent/{id:int?}",
-    defaults: new { controller = "Events", action = "JoinEvent" }
 );
 
 //AllEvents
