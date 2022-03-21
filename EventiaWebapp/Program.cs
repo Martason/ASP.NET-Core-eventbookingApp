@@ -12,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 //builder.Services finns i både razor och mvp men använder olika metoder
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-builder.Services.AddDbContextFactory<EpicEventsContext>(options =>
+builder.Services.AddDbContext<EpicEventsContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("EpicEventsContext")));
 builder.Services.AddScoped<EventsHandler>(); //service registrerad, med i systemet och jag kan plocka fram det i mitt program.
 //builder.Services.AddTransient<DatabaseHandler>();
