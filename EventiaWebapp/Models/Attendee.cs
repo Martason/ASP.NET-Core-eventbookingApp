@@ -6,7 +6,7 @@
         public string Name { get; set; }
         public string Email { get; set; }
 
-        public ICollection<Event> Event { get; set; }
+        public virtual ICollection<Event> Event { get; set; }
 
     }
 }

@@ -12,24 +12,22 @@ namespace EventiaWebapp.Pages
             _eventsHandler = eventsHandler;
         }
 
-        public Event evt { get; set; }
-        public void OnGet(int id)
+        public Event Evt { get; set; }
+        public void OnGet(int eventId)
         {
-           evt = _eventsHandler.GetEventList().Find(e => e.Id == id);
+           Evt = _eventsHandler.GetEventList().Find(e => e.Id == eventId);
         }
 
-        public IActionResult OnPost(int id)
+        public IActionResult OnPost(int evtId)
         {
-            if (_eventsHandler.ConfirmBooking(id))
-            {
-                return RedirectToPage("ConfirmedBooking", id);
+             if (_eventsHandler.ConfirmBooking(evtId))
+             {
+                 return RedirectToPage("ConfirmedBooking", new {eventId = evtId});
+                //TODO varför new routeValue? behövs ju inte vid "asp-route-id="@eventList[i].Id"
+                //TODO bättre namn än Id och id? evtId? asp-route-evtId=
             }
-            
+
             return NotFound("404");
-            
-
-
-            
         }
     }
 }

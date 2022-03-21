@@ -16,16 +16,6 @@ namespace EventiaWebapp.Controllers
         {
             return View("Index");
         }
-
-        public IActionResult MyEvents(Attendee? attendeeId)
-        {
-            if (attendeeId == null)
-            {
-                return NotFound();
-            }
-
-            return View("MyEvents", attendeeId);
-        }
-
+        
     }
 }

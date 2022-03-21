@@ -1,0 +1,20 @@
+﻿@page
+@model EventiaWebapp.Pages.DevelopmentModel
+@{
+    
+    <form method="post">
+        @if (HttpContext.Request.Method == "GET")
+        {
+            <p>Are you sure you want to reset and seed the datebase?</p>
+        }
+        else
+        {
+            <p>
+                Database has been reset and seed:ed, do you with to do it again?
+            </p>
+        }
+        <button type="submit" class="btn btn-warning">
+            Reset database
+        </button>
+    </form>
+}

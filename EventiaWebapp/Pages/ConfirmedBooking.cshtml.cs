@@ -15,12 +15,15 @@ namespace EventiaWebapp.Pages
         }
 
         public Event Evt { get; set;}
+        public Attendee Attendee { get; set;}
 
-        public void OnGet(int id)
+        //TODO får inte tag på attendes listan.... ? 
+
+        public void OnGet(int eventId)
         {
-            Evt = _eventsHandler.GetEventList().Find(e => e.Id == id);
+            Evt = _eventsHandler.GetEventList().Find(e => e.Id == eventId);
+            Attendee = _eventsHandler.GetAttendees().FirstOrDefault();
         }
 
-       
     }
 }
