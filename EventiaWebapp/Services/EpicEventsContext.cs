@@ -13,19 +13,14 @@ namespace EventiaWebapp.Services.Data
          {
          }
 
-
-        //För att säga vilka C# klasser som ska tolkas som databastabeller.
         public DbSet<Attendee> Attendees { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<Organizer> Organizers { get; set; }
 
-        //För att styra anslutningen till databasservern.
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-           // optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Database=EpicEventDb");
         }
 
-        //För att i detalj beskriva tabellerna och deras förhållanden.
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Attendee>(entity =>
@@ -39,8 +34,6 @@ namespace EventiaWebapp.Services.Data
                 entity.HasIndex(e => e.Email).IsUnique();
             });
         }
-
-
 
     }
 }

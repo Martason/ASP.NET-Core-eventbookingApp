@@ -7,18 +7,12 @@ namespace EventiaWebapp.Services
 {
     public class EventsHandler
     {
-        // Metod som returnerar en lista på alla events
-        // Metod som returnerar en defoult deltagarlista (alltid samma i denna uppgift)
-        // En metod som registerar ett givet deltagatobjekt med att givet eventobjekt
-        // En metod som returnerar en lista på alla events ett givet deltagar objekt registrerat sig på
-
         private readonly EpicEventsContext _context;
 
         public EventsHandler(EpicEventsContext context)
         {
             _context = context;
         }
-
         public List<Event> GetEventList()
         {
             return _context.Events.Include(e => e.Organizer).Include(e=>e.Attendees).ToList();
@@ -56,25 +50,14 @@ namespace EventiaWebapp.Services
         {
 
             var query = _context.Attendees
-                .Where(a => a.Id == attendeId)
                 .Include(a => a.Event);
 
             if (!query.Any()) return null;
 
-            var attende = query.First();
+            var attende = query.FirstOrDefault(a => a.Id == attendeId);
 
-            var query2 = _context.Events.Where(e => e.Attendees == attende);
-            if (!query2.Any()) return null;
-
-
-            return query2.ToList();
-
+            return attende.Event.ToList();
         }
-        public Attendee GetAttendee(int attendeId)
-        {
-            var attende = _context.Attendees.Where(a => a.Id == attendeId);
-            return attende.FirstOrDefault();
 
-        }
     }
 }

@@ -42,7 +42,7 @@ using (var scope = app.Services.CreateScope())
         await database.CreateAndSeedTestDataIfNotExist();
     }
 }
-
+app.UseStaticFiles();
 app.UseRouting();
 
 //Mappning

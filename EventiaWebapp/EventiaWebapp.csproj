@@ -7,12 +7,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\images\almas-salakhov-nUpN7pM6l2c-unsplash.jpg" />
+    <Content Remove="wwwroot\images\javier-martinez-hUD0PUczwJQ-unsplash.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\images\gameControllerS.jpg" />
+    <None Include="wwwroot\images\snowSunset.jpg" />
   </ItemGroup>
 
 </Project>

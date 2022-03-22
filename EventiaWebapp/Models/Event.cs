@@ -45,6 +45,8 @@ namespace EventiaWebapp.Models
         public string InfoLong { get; set; }
         public string InfoShort { get; set; }
 
+        public string Picture { get; set; }
+
         [Required]
         public Organizer Organizer { get; set; }
         public ICollection<Attendee> Attendees { get; set; }

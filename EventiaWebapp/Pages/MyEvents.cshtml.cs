@@ -20,7 +20,7 @@ namespace EventiaWebapp.Pages
         public void OnGet()
         {
             Attendee = _eventsHandler.GetAttendees().FirstOrDefault();
-            AttendesEventList = Attendee.Event.ToList();
+            AttendesEventList = _eventsHandler.GetEventList(Attendee.Id);
         }
     }
 }
