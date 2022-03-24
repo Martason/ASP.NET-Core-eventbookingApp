@@ -17,6 +17,8 @@ builder.Services.AddDbContext<EpicEventsContext>(options =>
 builder.Services.AddScoped<EventsHandler>(); //service registrerad, med i systemet och jag kan plocka fram det i mitt program.
 //builder.Services.AddTransient<DatabaseHandler>();
 builder.Services.AddScoped<DatabaseHandler>();
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
 
 
 #endregion
@@ -40,8 +42,11 @@ using (var scope = app.Services.CreateScope())
     if (app.Environment.IsDevelopment())
     {
         await database.CreateAndSeedTestDataIfNotExist();
+        app.UseDeveloperExceptionPage();
     }
 }
+
+
 app.UseStaticFiles();
 app.UseRouting();
 
@@ -49,13 +54,6 @@ app.UseRouting();
 
 
 //Mest generella routen sist, 
-
-//AllEvents
-app.MapControllerRoute(
-    name: "AllEvents",
-    pattern: "AllEvents/",
-    defaults: new { controller = "Events", action = "Index" }
-);
 
 //Login/
 app.MapControllerRoute(
@@ -65,13 +63,13 @@ app.MapControllerRoute(
 );
 
 // Default route
-/////
+//
 app.MapControllerRoute(
 name: "default",
 pattern: "{controller}/{action=Index}"
 );
 
-//specifick för Razor pages
+//specifick för Razor pages. Mappar via folder strukturen
 app.MapRazorPages();
 
 //MatGet sätter route (pathname från js) och vilken endpoint som ska nås genom att sökvägen används i url:n

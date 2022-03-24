@@ -38,9 +38,7 @@
         <li class="list-group-item">Brought to you by @Model.Evt.Organizer.Name</li>
     </ul>
     <div class="card-buttons">
-        <form method="post" asp-route-evtId="@Model.Evt.Id"> <button class="btn btn-dark knapp">Join this event</button>
-           
-            </form>
+        <form method="post" asp-route-evtId="@Model.Evt.Id"> <button class="btn btn-dark knapp">Join this event</button></form>
         <a asp-controller="Events" asp-action="Index" class="btn btn-dark knapp">Back</a>
     </div>
 </div>

@@ -1,5 +1,6 @@
 using EventiaWebapp.Models;
 using EventiaWebapp.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace EventiaWebapp.Pages
@@ -12,7 +13,6 @@ namespace EventiaWebapp.Pages
         {
             _eventsHandler = eventsHandler;
         }
-
         public List<Event> AttendesEventList { get; set; }
         public Attendee Attendee { get; set; }
 

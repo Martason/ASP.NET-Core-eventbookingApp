@@ -11,7 +11,7 @@ namespace EventiaWebapp.Pages
         {
             _eventsHandler = eventsHandler;
         }
-
+        [BindProperty]
         public Event Evt { get; set; }
         public void OnGet(int eventId)
         {
@@ -23,11 +23,12 @@ namespace EventiaWebapp.Pages
              if (_eventsHandler.ConfirmBooking(evtId))
              {
                  return RedirectToPage("ConfirmedBooking", new {eventId = evtId});
-                //TODO varför new routeValue? behövs ju inte vid "asp-route-id="@eventList[i].Id"
-                //TODO bättre namn än Id och id? evtId? asp-route-evtId=
+                //TODO varför new routeValue? behövs ju inte när jag länkade i html koden på "AllEvents" sidan med "asp-route-id="@eventList[i].Id"
+                //TODO känsligt med namnet som inte får vara samma, kan man använda this? 
             }
 
             return NotFound("404");
         }
     }
+
 }
