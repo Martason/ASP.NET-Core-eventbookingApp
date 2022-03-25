@@ -1,3 +1,4 @@
+using System.Diagnostics.Tracing;
 using EventiaWebapp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -13,21 +14,27 @@ namespace EventiaWebapp.Pages
         }
         [BindProperty]
         public Event Evt { get; set; }
+        public bool evetAlreadyBooked { set; get; }
+
         public void OnGet(int eventId)
         {
-           Evt = _eventsHandler.GetEventList().Find(e => e.Id == eventId);
+            var attendee = _eventsHandler.GetAttendees().FirstOrDefault();
+            var attendesEventIdList = _eventsHandler.GetEventList(attendee.Id).Select(e => e.Id).ToList();
+
+            if (attendesEventIdList.Contains(eventId)) evetAlreadyBooked = true;
+
+            Evt = _eventsHandler.GetEventList().Find(e => e.Id == eventId);
         }
 
-        public IActionResult OnPost(int evtId)
+        public IActionResult OnPost(int eventId)
         {
-             if (_eventsHandler.ConfirmBooking(evtId))
-             {
-                 return RedirectToPage("ConfirmedBooking", new {eventId = evtId});
-                //TODO varför new routeValue? behövs ju inte när jag länkade i html koden på "AllEvents" sidan med "asp-route-id="@eventList[i].Id"
-                //TODO känsligt med namnet som inte får vara samma, kan man använda this? 
+            
+            if (_eventsHandler.ConfirmBooking(eventId))
+            {
+                return RedirectToPage("ConfirmedBooking", new { eventId });
             }
 
-            return NotFound("404");
+            return NotFound("Something went wrong");
         }
     }
 

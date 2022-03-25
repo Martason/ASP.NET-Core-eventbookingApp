@@ -1,4 +1,5 @@
 ﻿@page "{eventId:int}" //TODO va fan är detta och hur hör 
+@using Microsoft.CodeAnalysis.VisualBasic.Syntax
 @model EventiaWebapp.Pages.JoinEventModel
 
 
@@ -36,10 +37,26 @@
         <li class="list-group-item">@Model.Evt.Date.ToString("f")</li>
         <li class="list-group-item">Spots: @Model.Evt.SpotsAvalable</li>
         <li class="list-group-item">Brought to you by @Model.Evt.Organizer.Name</li>
+        @{
+            if (@Model.evetAlreadyBooked)
+            {
+                <li class="list-group-item">´<strong>You already booked this event</strong></li>
+            }}
     </ul>
     <div class="card-buttons">
-        <form method="post" asp-route-evtId="@Model.Evt.Id"> <button class="btn btn-dark knapp">Join this event</button></form>
-        <a asp-controller="Events" asp-action="Index" class="btn btn-dark knapp">Back</a>
+        @{
+            if (@Model.evetAlreadyBooked)
+            {
+                <a asp-page="MyEvents" class="btn btn-dark knapp">My Events</a>
+            }
+            else
+            {
+                <form method="post" asp-route-eventId="@Model.Evt.Id"> <button class="btn btn-dark knapp">Join this event</button></form>
+            }
+            <a asp-controller="Events" asp-action="Index" class="btn btn-dark knapp">Back</a>
+        }
+        
     </div>
 </div>
 </div>
+

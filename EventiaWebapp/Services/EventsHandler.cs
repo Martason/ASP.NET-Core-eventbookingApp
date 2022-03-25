@@ -17,7 +17,18 @@ namespace EventiaWebapp.Services
         {
             return _context.Events.Include(e => e.Organizer).Include(e=>e.Attendees).ToList();
         }
+        public List<Event> GetEventList(int attendeId)
+        {
 
+            var query = _context.Attendees
+                .Include(a => a.Event);
+
+            if (!query.Any()) return null;
+
+            var attende = query.FirstOrDefault(a => a.Id == attendeId);
+
+            return attende.Event.ToList();
+        }
         public List<Attendee> GetAttendees()
         {
             return _context.Attendees.Include(a=>a.Event).ThenInclude(e=>e.Organizer).ToList();
@@ -46,18 +57,7 @@ namespace EventiaWebapp.Services
             //TODO Query 2 va fan?! :P Veroica och Joakim
         }
 
-        public List<Event> GetEventList(int attendeId)
-        {
-
-            var query = _context.Attendees
-                .Include(a => a.Event);
-
-            if (!query.Any()) return null;
-
-            var attende = query.FirstOrDefault(a => a.Id == attendeId);
-
-            return attende.Event.ToList();
-        }
+    
 
     }
 }
