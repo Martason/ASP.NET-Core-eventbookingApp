@@ -14,12 +14,12 @@ namespace EventiaWebapp.Pages
         }
 
         public List<Event> AttendesEventList { get; set; }
-        public Attendee Attendee { get; set; }
+        public Models.EventiaUser user { get; set; }
 
         public void OnGet()
         {
-            Attendee = _eventsHandler.GetAttendees().FirstOrDefault();
-            AttendesEventList = _eventsHandler.GetEventList(Attendee.Id);
+            user = _eventsHandler.GetAttendees().FirstOrDefault();
+            AttendesEventList = _eventsHandler.GetEventList(user.Id);
         }
     }
 }

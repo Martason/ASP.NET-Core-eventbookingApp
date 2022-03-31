@@ -10,8 +10,21 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<EpicEventsContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("EpicEventsContext")));
+builder.Services.AddAuthentication("AuktoriseringsCookie").AddCookie("AuktoriseringsCookie", options =>
+{
+    options.Cookie.Name = "AuktoriseringsCookie";
+});
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("OrganizerAccess",
+        policy => policy.RequireClaim("Role", "Organizer"));
+    options.AddPolicy("OrganizerAccess",
+        policy => policy.RequireClaim("Role", "Admin"));
+});
+
 builder.Services.AddScoped<EventsHandler>();
 builder.Services.AddScoped<DatabaseHandler>();
+builder.Services.AddScoped<UserHandler>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 #endregion
@@ -30,7 +43,8 @@ using (var scope = app.Services.CreateScope())
 
     if (app.Environment.IsDevelopment())
     {
-        await database.CreateAndSeedTestDataIfNotExist();
+        await database.RecreateAndSeed();
+        //await database.CreateAndSeedTestDataIfNotExist();
         app.UseDeveloperExceptionPage();
     }
 }
@@ -38,8 +52,8 @@ using (var scope = app.Services.CreateScope())
 app.UseStaticFiles();
 app.UseRouting();
 
-//Login/
-app.MapControllerRoute(name: "Login", pattern: "Login", defaults: new {controller = "Login", action = "Index"});
+app.UseAuthentication();//Det är här jag tittar på coocken.
+app.UseAuthorization();
 
 app.MapControllerRoute(name: "default", pattern: "{controller}/{action=Index}");
 

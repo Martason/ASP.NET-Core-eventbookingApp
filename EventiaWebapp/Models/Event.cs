@@ -6,7 +6,7 @@ namespace EventiaWebapp.Models
     {
         public Event()
         {
-            Attendees = new HashSet<Attendee>();
+            Attendees = new HashSet<EventiaUser>();
         }
         //TODO fråga till Björn. 
         /*
@@ -33,10 +33,10 @@ namespace EventiaWebapp.Models
         public string InfoLong { get; set; }
         public string InfoShort { get; set; }
 
-        public string Picture { get; set; }
+        public string? Picture { get; set; }
 
         [Required]
         public Organizer Organizer { get; set; }
-        public ICollection<Attendee> Attendees { get; set; }
+        public ICollection<EventiaUser> Attendees { get; set; }
     }
 }

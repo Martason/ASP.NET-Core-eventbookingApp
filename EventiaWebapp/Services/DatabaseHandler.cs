@@ -14,11 +14,6 @@ public class DatabaseHandler
 
     public async Task SeedTestData()
     {
-        var attendes = new List<Attendee>
-        {
-            new() {Name = "Märta Hjalmarson", Email = "marta@hotmail.com"},
-            new() {Name = "Pia Hagman", Email = "pia@hotmail.com"}
-        };
 
         var organizers = new List<Organizer>
         {
@@ -155,10 +150,23 @@ public class DatabaseHandler
                     "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.",
                 Picture = "https://localhost:7086//images/whineGlassPicture.jpg"
             }
+
         };
-        await _context.AddRangeAsync(attendes);
+
+        var users = new List<EventiaUser>
+        {
+            new()
+            {
+                //TODO dum fråga men varför new.... ?
+                Username = "user", Password = "password", Email = "marta@hotmail.com",
+                Event = new[] {events[1], events[3]}
+            },
+
+        };
+
         await _context.AddRangeAsync(organizers);
         await _context.AddRangeAsync(events);
+        await _context.AddRangeAsync(users);
 
         await _context.SaveChangesAsync();
     }

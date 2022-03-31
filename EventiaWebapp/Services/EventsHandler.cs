@@ -19,19 +19,16 @@ namespace EventiaWebapp.Services
         }
         public List<Event> GetEventList(int attendeId)
         {
-
-            var query = _context.Attendees
-                .Include(a => a.Event);
-
-            if (!query.Any()) return null;
-
-            var attende = query.FirstOrDefault(a => a.Id == attendeId);
+            var attende = _context.Users
+                .Where(a=>a.Id == attendeId)
+                .Include(a => a.Event)
+                .FirstOrDefault();
 
             return attende.Event.ToList();
         }
-        public List<Attendee> GetAttendees()
+        public List<EventiaUser> GetAttendees()
         {
-            return _context.Attendees.Include(a=>a.Event).ThenInclude(e=>e.Organizer).ToList();
+            return _context.Users.Include(a=>a.Event).ThenInclude(e=>e.Organizer).ToList();
         }
 
         public bool ConfirmBooking(int eventId)
@@ -41,7 +38,7 @@ namespace EventiaWebapp.Services
             var evt = query.FirstOrDefault();
             if (evt == null) return false;
 
-            var query2 = _context.Attendees.Include(a => a.Event);
+            var query2 = _context.Users.Include(a => a.Event);
             var attendee = query2.FirstOrDefault();
 
             if (attendee == null) return false;
