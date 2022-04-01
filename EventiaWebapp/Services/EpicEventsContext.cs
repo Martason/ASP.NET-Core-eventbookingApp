@@ -1,9 +1,10 @@
 ﻿using EventiaWebapp.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace EventiaWebapp.Services.Data
 {
-    public class EpicEventsContext : DbContext
+    public class EpicEventsContext : IdentityDbContext<EventiaUser>
     {
         public EpicEventsContext()
         {
@@ -14,28 +15,10 @@ namespace EventiaWebapp.Services.Data
          }
 
         public DbSet<Event> Events { get; set; }
-        public DbSet<Organizer> Organizers { get; set; }
 
-        public DbSet<EventiaUser> Users { get; set; }
+        //DbSet<EventiaUser> Users { get; set; } behövs inte! För det görs redan i IdentityDbContext<EventiaUser> 
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-        }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-
-            modelBuilder.Entity<Organizer>(entity =>
-            {
-                entity.HasIndex(e => e.Name).IsUnique();
-                entity.HasIndex(e => e.Email).IsUnique();
-            });
-
-            modelBuilder.Entity<EventiaUser>(entity =>
-            {
-                entity.HasIndex(e => e.Username).IsUnique();
-            });
-        }
 
     }
 }

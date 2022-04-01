@@ -1,24 +1,28 @@
 using EventiaWebapp.Models;
+using EventiaWebapp.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace EventiaWebapp.Pages
 {
     public class ConfirmedBookingModel : PageModel
     {
-        private readonly Services.EventsHandler _eventsHandler;
+        private readonly EventsHandler _eventsHandler;
+        private readonly UserManager<EventiaUser> _userManager;
 
-        public ConfirmedBookingModel(Services.EventsHandler eventsHandler)
+        public ConfirmedBookingModel(UserManager<EventiaUser> userManager, EventsHandler eventsHandler)
         {
+            _userManager = userManager;
             _eventsHandler = eventsHandler;
         }
 
         public Event Evt { get; set; }
-        public Models.EventiaUser Attendee { get; set; }
+        public EventiaUser logedInUser { get; set; }
 
         public void OnGet(int eventId)
         {
-            //Evt = _eventsHandler.GetEventList().Find(e => e.Id == eventId);
-            //Attendee = _eventsHandler.GetAttendees().FirstOrDefault();
+            Evt = _eventsHandler.GetEventList().Find(e => e.Id == eventId);
+            logedInUser = _eventsHandler.getAttende(_userManager.GetUserId(User));
         }
     }
 }

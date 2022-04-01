@@ -20,14 +20,14 @@
 }
 
 <div class="joinEventMainDiv">
-    <h1> <br/>@Model.Attendee.Username confirmed!</h1>
+    <h1> <br/>@Model.logedInUser.UserName confirmed!</h1>
 
     <div class="card" style="width: 18rem;">
         <img src="@Model.Evt.Picture" class="card-img-top" alt="...">
         <div class="card-body">
             <h5 class="card-title">@Model.Evt.Title</h5>
             <p class="card-text infoText">Thank you for your booking! <br/>
-                An email has been sent to @Model.Attendee.Email with booking confirmation</p>
+                An email has been sent to @Model.logedInUser.Email with booking confirmation</p>
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">@Model.Evt.Date.ToString("f")</li>

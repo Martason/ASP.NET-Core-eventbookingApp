@@ -1,15 +1,18 @@
 ﻿using EventiaWebapp.Models;
 using EventiaWebapp.Services.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace EventiaWebapp.Services;
 
 public class DatabaseHandler
 {
     private readonly EpicEventsContext _context;
+    private readonly UserManager<EventiaUser> _userManager;
 
-    public DatabaseHandler(EpicEventsContext context)
+    public DatabaseHandler(EpicEventsContext context, UserManager<EventiaUser> userManager)
     {
         _context = context;
+        _userManager = userManager;
     }
 
     public async Task SeedTestData()
@@ -157,16 +160,16 @@ public class DatabaseHandler
         {
             new()
             {
-                //TODO dum fråga men varför new.... ?
-                Username = "user", Password = "password", Email = "marta@hotmail.com",
-                Event = new[] {events[1], events[3]}
+                UserName = "Martis", Email = "marta@hotmail.com",
+                Event = new[] {events[1], events[3]},
             },
+        // använder usermanager sen för att skapa en ny user och skicka med denna user och lägga till email. 
 
         };
 
         await _context.AddRangeAsync(organizers);
         await _context.AddRangeAsync(events);
-        await _context.AddRangeAsync(users);
+        await _userManager.CreateAsync(users[0], "Passw0rd!");
 
         await _context.SaveChangesAsync();
     }

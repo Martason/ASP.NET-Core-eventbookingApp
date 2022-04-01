@@ -1,7 +1,9 @@
 #region Fas 1 - konfigurering
 
+using EventiaWebapp.Models;
 using EventiaWebapp.Services;
 using EventiaWebapp.Services.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +12,9 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<EpicEventsContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("EpicEventsContext")));
+builder.Services.AddDefaultIdentity<EventiaUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<EpicEventsContext>();
+//vilken typ av anv√§ndare vi kommer jobba med och vilken databas.
 builder.Services.AddAuthentication("AuktoriseringsCookie").AddCookie("AuktoriseringsCookie", options =>
 {
     options.Cookie.Name = "AuktoriseringsCookie";
@@ -24,7 +29,6 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddScoped<EventsHandler>();
 builder.Services.AddScoped<DatabaseHandler>();
-builder.Services.AddScoped<UserHandler>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 #endregion
@@ -52,7 +56,7 @@ using (var scope = app.Services.CreateScope())
 app.UseStaticFiles();
 app.UseRouting();
 
-app.UseAuthentication();//Det ‰r h‰r jag tittar pÂ coocken.
+app.UseAuthentication();//Det √§r h√§r jag tittar p√• coocken.
 app.UseAuthorization();
 
 app.MapControllerRoute(name: "default", pattern: "{controller}/{action=Index}");
