@@ -12,8 +12,10 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<EpicEventsContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("EpicEventsContext")));
+
 builder.Services.AddDefaultIdentity<EventiaUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<EpicEventsContext>();
+
 //vilken typ av användare vi kommer jobba med och vilken databas.
 builder.Services.AddAuthentication("AuktoriseringsCookie").AddCookie("AuktoriseringsCookie", options =>
 {
