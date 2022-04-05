@@ -31,16 +31,16 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">@Model.Evt.Date.ToString("f")</li>
             <li class="list-group-item">Spots: @Model.Evt.SpotsAvalable</li>
-            <li class="list-group-item">Brought to you by @Model.Evt.Organizer.Name</li>
+            <li class="list-group-item">Brought to you by @Model.Evt.Organizer.UserName</li>
             @{
-                if (Model.EvetAlreadyBooked)
+                if (Model.AlreadyBooked)
                 {
                     <li class="list-group-item">´<strong>You already booked this event</strong></li>
                 }}
         </ul>
         <div class="card-buttons">
             @{
-                if (Model.EvetAlreadyBooked)
+                if (Model.AlreadyBooked)
                 {
                     <a asp-page="MyEvents" class="btn btn-dark knapp">My Events</a>
                 }

@@ -43,7 +43,17 @@
                 </ul>
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                        @{
+                            if (User.Identity.IsAuthenticated)
+                            {
+                                <a class="nav-link">@User.Identity.Name</a>
+                                <a class="nav-link" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
+                            }
+                            else
+                            {
+                                <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                            }
+                        }
                     </li>
                 </ul>
             </div>
@@ -63,6 +73,6 @@
     </div>
 </footer>
 <script src="~/lib/bootstrap/js/bootstrap.js"></script>
-@await RenderSectionAsync("bottom_of_body", false)
+@await RenderSectionAsync("Scripts", false)
 </body>
 

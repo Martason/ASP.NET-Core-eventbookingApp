@@ -1,25 +1,34 @@
 using EventiaWebapp.Models;
 using EventiaWebapp.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace EventiaWebapp.Pages
 {
+    [Authorize]
     public class MyEventsModel : PageModel
     {
-        private readonly Services.EventsHandler _eventsHandler;
+      
+        private readonly EventsHandler _eventsHandler;
+        private readonly UserManager<EventiaUser> _userManager;
 
-        public MyEventsModel(EventsHandler eventsHandler)
+        public MyEventsModel(EventsHandler eventsHandler, UserManager<EventiaUser> userManager)
         {
             _eventsHandler = eventsHandler;
+            _userManager = userManager;
         }
 
-        public List<Event> AttendesEventList { get; set; }
-        public Models.EventiaUser user { get; set; }
+        public List<Event>? AttendesEventList { get; set; }
 
-        public void OnGet()
+        public async void OnGetAsyc()
         {
-            user = _eventsHandler.GetAttendees().FirstOrDefault();
-            AttendesEventList = _eventsHandler.GetEventList(user.Id);
+            var logedInUserId = _userManager.GetUserId(User);
+
+            if (logedInUserId != null)
+            {
+                AttendesEventList = await _eventsHandler.GetEventList(logedInUserId);
+            }
         }
     }
 }

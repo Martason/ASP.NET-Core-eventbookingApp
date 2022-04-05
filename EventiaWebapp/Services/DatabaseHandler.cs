@@ -8,22 +8,17 @@ public class DatabaseHandler
 {
     private readonly EpicEventsContext _context;
     private readonly UserManager<EventiaUser> _userManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
 
-    public DatabaseHandler(EpicEventsContext context, UserManager<EventiaUser> userManager)
+    public DatabaseHandler(EpicEventsContext context, UserManager<EventiaUser> userManager, RoleManager<IdentityRole> roleManager)
     {
         _context = context;
         _userManager = userManager;
+        _roleManager = roleManager;
     }
 
     public async Task SeedTestData()
     {
-
-        var organizers = new List<Organizer>
-        {
-            new() {Name = "Boardgames AB", Email = "info@boardgame.se"},
-            new() {Name = "GymBeast AB", Email = "info@gymbeast.se"},
-            new() {Name = "Wine Explorer AB", Email = "info@wineexplorer.se"}
-        };
 
         var events = new List<Event>
         {
@@ -34,7 +29,7 @@ public class DatabaseHandler
                 Place = "Göteborg",
                 Adress = "Föreningsgatan 14, 411 28 Göteborg",
                 SpotsAvalable = 6,
-                Organizer = organizers[0],
+                //Organizer = organizers[0],
                 InfoLong =
                     "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.",
                 InfoShort =
@@ -48,7 +43,7 @@ public class DatabaseHandler
                 Place = "Göteborg",
                 Adress = "Föreningsgatan 14, 411 28 Göteborg",
                 SpotsAvalable = 6,
-                Organizer = organizers[0],
+                //Organizer = organizers[0],
                 InfoLong =
                     "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. ",
                 InfoShort =
@@ -62,7 +57,7 @@ public class DatabaseHandler
                 Place = "Göteborg",
                 Adress = "Föreningsgatan 14, 411 28 Göteborg",
                 SpotsAvalable = 6,
-                Organizer = organizers[0],
+                //Organizer = organizers[0],
                 InfoLong =
                     "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.",
                 InfoShort =
@@ -76,7 +71,7 @@ public class DatabaseHandler
                 Place = "Göteborg",
                 Adress = "Föreningsgatan 14, 411 28 Göteborg",
                 SpotsAvalable = 6,
-                Organizer = organizers[1],
+                //Organizer = organizers[1],
                 InfoLong =
                     "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. ",
                 InfoShort =
@@ -90,7 +85,7 @@ public class DatabaseHandler
                 Place = "Göteborg",
                 Adress = "Föreningsgatan 14, 411 28 Göteborg",
                 SpotsAvalable = 15,
-                Organizer = organizers[1],
+                //Organizer = organizers[1],
                 InfoLong =
                     "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.",
                 InfoShort =
@@ -104,7 +99,7 @@ public class DatabaseHandler
                 Place = "Göteborg",
                 Adress = "Föreningsgatan 14, 411 28 Göteborg",
                 SpotsAvalable = 15,
-                Organizer = organizers[1],
+                //Organizer = organizers[1],
                 InfoLong =
                     "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.",
                 InfoShort =
@@ -118,7 +113,7 @@ public class DatabaseHandler
                 Place = "Göteborg",
                 Adress = "Föreningsgatan 14, 411 28 Göteborg",
                 SpotsAvalable = 15,
-                Organizer = organizers[2],
+                //Organizer = organizers[2],
                 InfoLong =
                     "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.",
                 InfoShort =
@@ -132,7 +127,7 @@ public class DatabaseHandler
                 Place = "Göteborg",
                 Adress = "Föreningsgatan 14, 411 28 Göteborg",
                 SpotsAvalable = 15,
-                Organizer = organizers[2],
+                //Organizer = organizers[2],
                 InfoLong =
                     "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.",
                 InfoShort =
@@ -146,7 +141,7 @@ public class DatabaseHandler
                 Place = "Göteborg",
                 Adress = "Föreningsgatan 14, 411 28 Göteborg",
                 SpotsAvalable = 15,
-                Organizer = organizers[2],
+                //Organizer = organizers[2],
                 InfoLong =
                     "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.",
                 InfoShort =
@@ -155,21 +150,59 @@ public class DatabaseHandler
             }
 
         };
-
         var users = new List<EventiaUser>
         {
             new()
             {
-                UserName = "Martis", Email = "marta@hotmail.com",
-                Event = new[] {events[1], events[3]},
+                UserName = "admin@Eventia.com", Email = "admin@Eventia.com",
             },
-        // använder usermanager sen för att skapa en ny user och skicka med denna user och lägga till email. 
+
+            new()
+            {
+                UserName = "info@boardgames.se", OrganizerName = "Boardgames AB", Email = "info@boardgames.se",
+                HostedEvents = new[] {events[0], events[1], events[2]},
+            },
+            new()
+            {
+                UserName ="info@gymbeast.com", OrganizerName = "Gymbeast AB", Email = "info@gymbeast.com",
+                 HostedEvents = new[] {events[3], events[4], events[5]},
+            },
+            new()
+            {
+                UserName ="info@wineexplorer.se", OrganizerName = "Wineexplorer AB", Email = "info@wineexplorer.se",
+                 HostedEvents = new[] {events[6], events[7], events[8]},
+            },
+             new()
+            {
+                 UserName = "atendee@Eventia.se", FirstName ="Märta", LastName ="Hjalmarson", Email = "atendee@Eventia.se",
+                 JoinedEvents = new[] {events[0], events[3], events[6]},
+            },
 
         };
-
-        await _context.AddRangeAsync(organizers);
         await _context.AddRangeAsync(events);
+
+        var roles = new List<IdentityRole>
+            {
+                new() {Name = "Admin"},
+                new() {Name = "Organizer"},
+                new() {Name = "Atendee"}
+            };
+
+        await _roleManager.CreateAsync(roles[0]);
+        await _roleManager.CreateAsync(roles[1]);
+        await _roleManager.CreateAsync(roles[2]);
+
         await _userManager.CreateAsync(users[0], "Passw0rd!");
+        await _userManager.CreateAsync(users[1], "Passw0rd!");
+        await _userManager.CreateAsync(users[2], "Passw0rd!");
+        await _userManager.CreateAsync(users[3], "Passw0rd!");
+        await _userManager.CreateAsync(users[4], "Passw0rd!");
+
+        await _userManager.AddToRoleAsync(users[0], "Admin");
+        await _userManager.AddToRoleAsync(users[1], "Organizer");
+        await _userManager.AddToRoleAsync(users[2], "Organizer");
+        await _userManager.AddToRoleAsync(users[3], "Organizer");
+        await _userManager.AddToRoleAsync(users[4], "Atendee");
 
         await _context.SaveChangesAsync();
     }

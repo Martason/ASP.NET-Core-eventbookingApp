@@ -47,7 +47,7 @@
                         <h4> Seats: @eventList[i].SpotsAvalable Time @eventList[i].Date.ToString("t")</h4>
                         <p class="infoText">@eventList[i].InfoShort</p>
                         <div class="accordion-upper-body">
-                            <p class="accordion-organiser">@eventList[i].Organizer.Name</p>
+                            <p class="accordion-organiser">@eventList[i].Organizer.UserName</p>
                             <a asp-page="/JoinEvent" asp-route-eventId="@eventList[i].Id" class="btn btn-dark knapp accordion-join-btn">Join</a>
                         </div>
                     </div>

@@ -17,25 +17,50 @@ namespace EventiaWebapp.Services
         {
             return _context.Events.Include(e => e.Organizer).Include(e=>e.Attendees).ToList();
         }
-        public List<Event> GetEventList(string userId)
-        {
-            var attende = _context.Users
-                .Where(a=>a.Id == userId)
-                .Include(a => a.Event)
-                .FirstOrDefault();
 
-            return attende.Event.ToList();
+ 
+        /// <summary>
+        /// Gets the joined events for a specified EventiaUser from the database
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>List of Joined Events including orginizers for that user</returns>
+        public async Task<List<Event>> GetEventList(string userId)
+        { 
+            var attendee = await _context.Users
+                .Include(u=>u.JoinedEvents)
+                .ThenInclude(e=>e.Organizer)
+                .FirstOrDefaultAsync(user => user.Id == userId);
+
+            return attendee.JoinedEvents.ToList();
+
         }
+        /// <summary>
+        /// Gets a specified EventiaUser from the database
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>EventiaUser including events</returns>
+        public async Task<EventiaUser> GetUserAsynch(string userId)
+        {
+            var attende = await _context.Users
+                .Include(u => u.JoinedEvents)
+                .ThenInclude(u => u.Organizer)
+                .FirstOrDefaultAsync(user => user.Id == userId);
+
+            return attende;
+        }
+
+
+
         public List<EventiaUser> GetAttendees()
         {
-            return _context.Users.Include(a=>a.Event).ThenInclude(e=>e.Organizer).ToList();
+            return null; // _context.Users.Include(a=>a.Event).ThenInclude(e=>e.Organizer).ToList();
         }
 
         public EventiaUser getAttende(string userId)
         {
             var attende = _context.Users
                 .Where(u => u.Id == userId)
-                .Include(u => u.Event);
+                .Include(u => u.JoinedEvents);
             return attende.FirstOrDefault();
         }
 
@@ -61,7 +86,6 @@ namespace EventiaWebapp.Services
 
         }
 
-    
 
     }
 }

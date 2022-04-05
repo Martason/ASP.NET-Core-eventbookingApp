@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
+
 namespace EventiaWebapp.Pages
 {
     public class JoinEventModel : PageModel
@@ -14,27 +15,41 @@ namespace EventiaWebapp.Pages
         {
             _eventsHandler = eventsHandler;
             _userManager = userManager;
+           
         }
 
-        [BindProperty] public Event Evt { get; set; }
-        public bool EvetAlreadyBooked { set; get; }
+        [BindProperty] 
+        public Event Evt { get; set; }
+        public bool AlreadyBooked { set; get; }
 
 
-        public void OnGet(int eventId)
+        public async void OnGetAsync(int eventId)
+
         {
-            var attendee = _eventsHandler.GetAttendees().FirstOrDefault();
-            var attendesEventIdList = _eventsHandler.GetEventList(attendee.Id).Select(e => e.Id).ToList();
-
-            if (attendesEventIdList.Contains(eventId)) EvetAlreadyBooked = true;
+            //TODO fråga Björn. Varför den måste ligga här. 
 
             Evt = _eventsHandler.GetEventList().Find(e => e.Id == eventId);
+
+
+            var logedInUserId = _userManager.GetUserId(User);
+            if (logedInUserId != null)
+            {
+                var attendesEvent = await _eventsHandler.GetEventList(logedInUserId);
+
+                var attendesEventIdList = attendesEvent.Select(e => e.Id).ToList();
+
+                if (attendesEventIdList.Contains(eventId)) AlreadyBooked = true;
+            }
+
+     
+
         }
 
         public IActionResult OnPost(int eventId)
         {
-            var AttendeeId = _userManager.GetUserId(User);
+            var logedInUserId = _userManager.GetUserId(User);
 
-            if (_eventsHandler.ConfirmBooking(eventId, AttendeeId))
+            if (_eventsHandler.ConfirmBooking(eventId, logedInUserId))
             {
                 return RedirectToPage("ConfirmedBooking", new {eventId});
             }

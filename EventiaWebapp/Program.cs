@@ -12,23 +12,9 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<EpicEventsContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("EpicEventsContext")));
-
-builder.Services.AddDefaultIdentity<EventiaUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<EventiaUser>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<EpicEventsContext>();
-
-//vilken typ av användare vi kommer jobba med och vilken databas.
-builder.Services.AddAuthentication("AuktoriseringsCookie").AddCookie("AuktoriseringsCookie", options =>
-{
-    options.Cookie.Name = "AuktoriseringsCookie";
-});
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("OrganizerAccess",
-        policy => policy.RequireClaim("Role", "Organizer"));
-    options.AddPolicy("OrganizerAccess",
-        policy => policy.RequireClaim("Role", "Admin"));
-});
-
 builder.Services.AddScoped<EventsHandler>();
 builder.Services.AddScoped<DatabaseHandler>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -49,8 +35,10 @@ using (var scope = app.Services.CreateScope())
 
     if (app.Environment.IsDevelopment())
     {
-        await database.RecreateAndSeed();
-        //await database.CreateAndSeedTestDataIfNotExist();
+        await database.Recreate();
+        await database.SeedTestData();
+        //await database.RecreateAndSeed();
+       // await database.CreateAndSeedTestDataIfNotExist();
         app.UseDeveloperExceptionPage();
     }
 }
@@ -58,7 +46,7 @@ using (var scope = app.Services.CreateScope())
 app.UseStaticFiles();
 app.UseRouting();
 
-app.UseAuthentication();//Det är här jag tittar på coocken.
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(name: "default", pattern: "{controller}/{action=Index}");

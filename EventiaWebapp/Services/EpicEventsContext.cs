@@ -6,9 +6,6 @@ namespace EventiaWebapp.Services.Data
 {
     public class EpicEventsContext : IdentityDbContext<EventiaUser>
     {
-        public EpicEventsContext()
-        {
-        }
 
         public EpicEventsContext(DbContextOptions<EpicEventsContext> options) : base(options)
          {

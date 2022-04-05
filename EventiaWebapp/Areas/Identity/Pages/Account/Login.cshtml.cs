@@ -116,6 +116,7 @@ namespace EventiaWebapp.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+                    //TODO fixa detta så man returneras till nån bättre sida
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
