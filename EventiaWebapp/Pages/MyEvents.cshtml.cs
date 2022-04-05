@@ -21,13 +21,13 @@ namespace EventiaWebapp.Pages
 
         public List<Event>? AttendesEventList { get; set; }
 
-        public async void OnGetAsyc()
+        public void OnGet()
         {
             var logedInUserId = _userManager.GetUserId(User);
 
             if (logedInUserId != null)
             {
-                AttendesEventList = await _eventsHandler.GetEventList(logedInUserId);
+                AttendesEventList = _eventsHandler.GetEventList(logedInUserId);
             }
         }
     }

@@ -23,18 +23,15 @@ namespace EventiaWebapp.Pages
         public bool AlreadyBooked { set; get; }
 
 
-        public async void OnGetAsync(int eventId)
+        public void OnGet(int eventId)
 
         {
-            //TODO fråga Björn. Varför den måste ligga här. 
-
             Evt = _eventsHandler.GetEventList().Find(e => e.Id == eventId);
-
 
             var logedInUserId = _userManager.GetUserId(User);
             if (logedInUserId != null)
             {
-                var attendesEvent = await _eventsHandler.GetEventList(logedInUserId);
+                var attendesEvent = _eventsHandler.GetEventList(logedInUserId);
 
                 var attendesEventIdList = attendesEvent.Select(e => e.Id).ToList();
 

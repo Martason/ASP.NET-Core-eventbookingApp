@@ -33,6 +33,18 @@
                     <li class="nav-item">
                         <a class="nav-link" asp-page="/MyEvents">My Events</a>
                     </li>
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                            {
+                                 <li class="nav-item">
+                                 <a class="btn btn-dark" asp-page="/Admin/Index">Admin</a>
+                                 </li>
+                            }
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Organizer"))
+                            {
+                                 <li class="nav-item">
+                                 <a class="btn btn-dark" asp-page="/Organizer/Index">Organizer</a>
+                                 </li>
+                            }
                     @if (_environment.IsDevelopment())
                     {
                         <li class="nav-item">

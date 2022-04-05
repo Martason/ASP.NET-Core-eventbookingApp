@@ -1,10 +1,12 @@
 using EventiaWebapp.Models;
 using EventiaWebapp.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace EventiaWebapp.Pages
 {
+    [Authorize]
     public class ConfirmedBookingModel : PageModel
     {
         private readonly EventsHandler _eventsHandler;

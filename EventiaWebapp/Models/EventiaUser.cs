@@ -9,6 +9,8 @@ namespace EventiaWebapp.Models
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
 
+        public bool? SeeksOrganizerRole { get; set; }
+
         public virtual ICollection<Event> JoinedEvents { get; set; }
         public virtual ICollection<Event> HostedEvents { get; set; }
 

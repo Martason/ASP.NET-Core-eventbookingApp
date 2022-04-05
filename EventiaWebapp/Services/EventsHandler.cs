@@ -24,12 +24,14 @@ namespace EventiaWebapp.Services
         /// </summary>
         /// <param name="userId"></param>
         /// <returns>List of Joined Events including orginizers for that user</returns>
-        public async Task<List<Event>> GetEventList(string userId)
+        public List<Event> GetEventList(string userId)
         { 
-            var attendee = await _context.Users
+            var attendee = _context.Users
                 .Include(u=>u.JoinedEvents)
                 .ThenInclude(e=>e.Organizer)
-                .FirstOrDefaultAsync(user => user.Id == userId);
+                .FirstOrDefault(user => user.Id == userId);
+
+           if (attendee == null) return null;
 
             return attendee.JoinedEvents.ToList();
 
