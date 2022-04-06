@@ -1,4 +1,5 @@
 using EventiaWebapp.Models;
+using EventiaWebapp.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,15 +10,16 @@ namespace EventiaWebapp.Pages.Admin
     [Authorize(Roles = "Admin")]
     public class IndexModel : PageModel
     {
-        private readonly UserManager<EventiaUser> _userManager;
+        private readonly EventiaUserHandler _userHandler;
 
-        public IndexModel(UserManager<EventiaUser> userManager)
+        public IndexModel(EventiaUserHandler userHandler)
         {
-            _userManager = userManager;
+            _userHandler = userHandler;
         }
-        public List<EventiaUser> OrganizersAplications { get; set; }
+        public List<EventiaUser> UsersSeekingOrganizerRole { get; set; }
         public void OnGet()
         {
+            UsersSeekingOrganizerRole = _userHandler.UsersSeekingOrganizerRole();
         }
     }
 }

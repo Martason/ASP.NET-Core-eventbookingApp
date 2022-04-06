@@ -17,6 +17,7 @@ builder.Services.AddDefaultIdentity<EventiaUser>(options => options.SignIn.Requi
     .AddEntityFrameworkStores<EpicEventsContext>();
 builder.Services.AddScoped<EventsHandler>();
 builder.Services.AddScoped<DatabaseHandler>();
+builder.Services.AddScoped<EventiaUserHandler>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 #endregion

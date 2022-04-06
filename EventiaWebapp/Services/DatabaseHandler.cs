@@ -185,7 +185,7 @@ public class DatabaseHandler
             {
                 new() {Name = "Admin"},
                 new() {Name = "Organizer"},
-                new() {Name = "Atendee"}
+                new() {Name = "User"},
             };
 
         await _roleManager.CreateAsync(roles[0]);
@@ -202,7 +202,7 @@ public class DatabaseHandler
         await _userManager.AddToRoleAsync(users[1], "Organizer");
         await _userManager.AddToRoleAsync(users[2], "Organizer");
         await _userManager.AddToRoleAsync(users[3], "Organizer");
-        await _userManager.AddToRoleAsync(users[4], "Atendee");
+        await _userManager.AddToRoleAsync(users[4], "User");
 
         await _context.SaveChangesAsync();
     }

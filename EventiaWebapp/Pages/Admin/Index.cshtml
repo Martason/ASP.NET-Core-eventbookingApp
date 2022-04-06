@@ -26,21 +26,21 @@
 
 <div class="AllEventsMain">
     <h1>@User.Identity.Name Admin page!</h1>
-    @{if(Model.OrganizersAplications != null)
+    @{if(Model.UsersSeekingOrganizerRole != null)
     {
         <div class="accordion accordion-flush" id="accordionFlushExample">
-            @for (var i = 0; i < Model.OrganizersAplications.Count; i++)
+            @for (var i = 0; i < Model.UsersSeekingOrganizerRole.Count; i++)
             {
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="flush-heading-@i">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-@i" aria-expanded="false" aria-controls="flush-collapse-@i">
-                            @Model.OrganizersAplications[i].UserName | 
+                            @Model.UsersSeekingOrganizerRole[i].UserName | 
                         </button>
                     </h2>
                     <div id="flush-collapse-@i" class="accordion-collapse collapse" aria-labelledby="flush-headin-@i" data-bs-parent="#accordionFlushExample">
                         <div class="accordion-body">
 
-                            <h3>Contact @Model.OrganizersAplications[i].Email | </h3>
+                            <h3>Contact @Model.UsersSeekingOrganizerRole[i].Email | </h3>
 
                             <h4>Mer info om ansökan?</h4>
                             <p class="infoText"></p>

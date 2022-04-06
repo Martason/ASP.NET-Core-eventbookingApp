@@ -73,6 +73,7 @@ namespace EventiaWebapp.Services
                 .Include(e => e.Attendees);
 
             var evt = query.FirstOrDefault();
+
             if (evt == null) return false;
 
             var attendee = getAttende(userId);
