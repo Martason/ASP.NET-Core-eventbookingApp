@@ -45,7 +45,7 @@
                             <h4>Mer info om ansökan?</h4>
                             <p class="infoText"></p>
                             <div class="accordion-upper-body">
-                                <a asp-page="" class="btn btn-dark knapp accordion-join-btn">Confirm user for organizer role</a>
+                                <form method="post" asp-route-userId="@Model.UsersSeekingOrganizerRole[i].Id"> <button class="btn btn-dark knapp accordion-join-btn">Confirm user for organizer role</button></form>
                                 <a asp-page="" class="btn btn-dark knapp accordion-join-btn">Decline user for organizer role</a>
                             </div>
                         </div>

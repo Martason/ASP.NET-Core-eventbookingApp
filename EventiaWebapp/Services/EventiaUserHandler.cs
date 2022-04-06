@@ -1,5 +1,6 @@
 ﻿using EventiaWebapp.Models;
 using EventiaWebapp.Services.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace EventiaWebapp.Services
@@ -8,10 +9,15 @@ namespace EventiaWebapp.Services
 
     {
         private readonly EpicEventsContext _context;
+        private readonly UserManager<EventiaUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public EventiaUserHandler(EpicEventsContext context)
+
+        public EventiaUserHandler(EpicEventsContext context, UserManager<EventiaUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _context = context;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         /// <summary>
@@ -34,7 +40,10 @@ namespace EventiaWebapp.Services
 
             //TODO använd usermanager istället för context
         }
-
+        /// <summary>
+        /// Gets a list off all EveniaUsers applying for organizer roles
+        /// </summary>
+        /// <returns>List of Eventia Users or null</returns>
         public List<EventiaUser> UsersSeekingOrganizerRole()
         {
             var usersSeekingOrganizerRole = _context.Users
@@ -45,5 +54,26 @@ namespace EventiaWebapp.Services
             return usersSeekingOrganizerRole;
 
         }
+
+        /// <summary>
+        /// Adds the param UserId to Organizer role
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>true if succes</returns>
+        public bool ApproveForOrganizerRole(string userId)
+        {
+            var eventiaUser = _context.Users
+                .FirstOrDefault(user => user.Id == userId);
+
+            if (eventiaUser == null) return false;
+
+            //_userManager.RemoveFromRoleAsync(eventiaUser, "User");
+            _userManager.AddToRoleAsync(eventiaUser, "Organizer");
+            _context.SaveChangesAsync();
+
+            return true;
+
+        }
+
     }
 }

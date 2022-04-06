@@ -21,5 +21,16 @@ namespace EventiaWebapp.Pages.Admin
         {
             UsersSeekingOrganizerRole = _userHandler.UsersSeekingOrganizerRole();
         }
+
+        public IActionResult OnPost(string userId)
+        {
+            
+            if (_userHandler.ApproveForOrganizerRole(userId))
+            {
+                return RedirectToPage("./ConfirmOrganizerRole");
+            }
+
+            return NotFound("Something went wrong");
+        }
     }
 }
