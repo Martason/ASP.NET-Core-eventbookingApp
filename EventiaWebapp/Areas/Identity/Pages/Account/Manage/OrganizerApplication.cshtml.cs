@@ -23,11 +23,11 @@ namespace EventiaWebapp.Areas.Identity.Pages.Account.Manage
         {
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPost()
         {
             var logedInUserId = _userManager.GetUserId(User);
 
-            if (_userHandler.OrganizerAccountApplication(logedInUserId))
+            if (await _userHandler.OrganizerAccountApplication(logedInUserId))
             {
                 return RedirectToPage("./ConfirmApplication");
             }

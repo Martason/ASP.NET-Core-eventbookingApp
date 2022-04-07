@@ -1,19 +1,19 @@
-﻿@{
-    if (ViewData.TryGetValue("ParentLayout", out var parentLayout))
-    {
-        Layout = (string)parentLayout;
-    }
+﻿
+@{
+    
+        Layout = "_MainLayout";
+    
    
 }
 
-<h1>Manage your account</h1>
+<h1>Organizer page</h1>
 
 <div>
-    <h2>Change your account settings</h2>
+    <h2>Handle your events</h2>
     <hr />
     <div class="row">
         <div class="col-md-3">
-            <partial name="_ManageNav"/>
+            <partial name="_ManageNavOrganizer" />
         </div>
         <div class="col-md-9">
             @RenderBody()
@@ -24,3 +24,4 @@
 @section Scripts {
     @RenderSection("Scripts", required: false)
 }
+

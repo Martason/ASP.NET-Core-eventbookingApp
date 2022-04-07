@@ -21,21 +21,35 @@ namespace EventiaWebapp.Services
         }
 
         /// <summary>
+        /// async function that gets a specefic EventiaUser
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>EventiaUser or null</returns>
+        public async Task<EventiaUser> GetEventiaUser(string userId)
+        {
+            var user =  await _context.Users
+                .FirstOrDefaultAsync(user => user.Id == userId);
+            if (user == null) return null;
+            return user;
+
+        }
+
+        /// <summary>
         /// Sets propperty SeeksOrganizerRole to true 
         /// </summary>
         /// <param name="userId"></param>
         /// <returns>bool true if database change is a success, false if not</returns>
-        public bool OrganizerAccountApplication(string userId)
+        public async Task<bool> OrganizerAccountApplication(string userId)
         {
-            var eventiaUser = _context.Users
-                .FirstOrDefault(user => user.Id == userId);
+            var eventiaUser = await _context.Users
+                .FirstOrDefaultAsync(user => user.Id == userId);
 
             if (eventiaUser == null) return false;
 
             eventiaUser.SeeksOrganizerRole = true;
 
             _context.Update(eventiaUser);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return true;
 
             //TODO använd usermanager istället för context
@@ -67,29 +81,28 @@ namespace EventiaWebapp.Services
 
             if (eventiaUsers == null) return null;
             return eventiaUsers;
-
         }
-
-
 
         /// <summary>
         /// Adds the param UserId to Organizer role
         /// </summary>
         /// <param name="userId"></param>
         /// <returns>true if succes</returns>
-        public bool ApproveForOrganizerRole(string userId)
+        public async Task<bool> ApproveForOrganizerRole(string userId)
         {
-            var eventiaUser = _context.Users
+           var eventiaUser = _context.Users
                 .FirstOrDefault(user => user.Id == userId);
 
-            if (eventiaUser == null) return false;
+           if (eventiaUser == null) return false;
 
             //_userManager.RemoveFromRoleAsync(eventiaUser, "User");
-            _userManager.AddToRoleAsync(eventiaUser, "Organizer");
-            _context.SaveChangesAsync();
+            eventiaUser.SeeksOrganizerRole = false;
+           await _userManager.AddToRoleAsync(eventiaUser, "Organizer");
+            _context.Update(eventiaUser);
+           await _context.SaveChangesAsync();
 
+            //async?
             return true;
-
         }
 
     }

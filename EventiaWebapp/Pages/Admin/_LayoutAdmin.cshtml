@@ -1,0 +1,46 @@
+﻿
+@{
+    
+        Layout = "_MainLayout";
+
+}
+@section bottom_of_head{
+    <style>
+
+        .accordion-item * { font-size: 20px; }
+
+        .accordion-upper-body {
+            display: flex;
+            justify-content: space-between
+        }
+
+        .accordion-button:not(.collapsed) {
+            background-color: #e2fafc;
+            border: solid 1px #212529;
+            border-color: #212529;
+            color: #642188;
+        }
+
+        .accordion-button:focus { box-shadow: none; }
+    </style>
+}
+
+<h1>Admin page</h1>
+
+<div>
+    <h2>Eventia administration</h2>
+    <hr />
+    <div class="row">
+        <div class="col-md-3">
+            <partial name="_ManageNavAdmin" />
+        </div>
+        <div class="col-md-9">
+            @RenderBody()
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}
+

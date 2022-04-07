@@ -1,7 +1,6 @@
 ﻿using EventiaWebapp.Models;
 using EventiaWebapp.Services.Data;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace EventiaWebapp.Services
 {
@@ -17,8 +16,7 @@ namespace EventiaWebapp.Services
         {
             return _context.Events.Include(e => e.Organizer).Include(e=>e.Attendees).ToList();
         }
-
- 
+        
         /// <summary>
         /// Gets the joined events for a specified EventiaUser from the database
         /// </summary>
@@ -35,27 +33,6 @@ namespace EventiaWebapp.Services
 
             return attendee.JoinedEvents.ToList();
 
-        }
-        /// <summary>
-        /// Gets a specified EventiaUser from the database
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns>EventiaUser including events</returns>
-        public async Task<EventiaUser> GetUserAsynch(string userId)
-        {
-            var attende = await _context.Users
-                .Include(u => u.JoinedEvents)
-                .ThenInclude(u => u.Organizer)
-                .FirstOrDefaultAsync(user => user.Id == userId);
-
-            return attende;
-        }
-
-
-
-        public List<EventiaUser> GetAttendees()
-        {
-            return null; // _context.Users.Include(a=>a.Event).ThenInclude(e=>e.Organizer).ToList();
         }
 
         public EventiaUser getAttende(string userId)
@@ -89,6 +66,32 @@ namespace EventiaWebapp.Services
 
         }
 
+        public async Task<bool> NewEvent(
+            EventiaUser organizer,
+            string title,
+            DateTime date,
+            string place,
+            string adress,
+            int spotsAvalale,
+            string infoLong,
+            string infoShort)
+        {
+            var newEvent = new Event
+            {
+                Title = title,
+                Date = date,
+                Place = place,
+                Adress = adress,
+                SpotsAvalable = spotsAvalale,
+                InfoLong = infoLong,
+                InfoShort = infoShort,
+                Organizer = organizer
+            };
 
+            await _context.Events.AddAsync(newEvent);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
     }
 }

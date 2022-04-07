@@ -10,27 +10,12 @@ namespace EventiaWebapp.Pages.Admin
     [Authorize(Roles = "Admin")]
     public class IndexModel : PageModel
     {
-        private readonly EventiaUserHandler _userHandler;
-
-        public IndexModel(EventiaUserHandler userHandler)
-        {
-            _userHandler = userHandler;
-        }
-        public List<EventiaUser> UsersSeekingOrganizerRole { get; set; }
+        
         public void OnGet()
         {
-            UsersSeekingOrganizerRole = _userHandler.GetSeeksOrganizers();
-        }
-
-        public IActionResult OnPost(string userId)
-        {
             
-            if (_userHandler.ApproveForOrganizerRole(userId))
-            {
-                return RedirectToPage("./ConfirmOrganizerRole");
-            }
-
-            return NotFound("Something went wrong");
         }
+
+
     }
 }
