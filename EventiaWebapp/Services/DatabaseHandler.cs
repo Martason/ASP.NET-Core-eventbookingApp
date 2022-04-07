@@ -172,11 +172,21 @@ public class DatabaseHandler
                 UserName ="info@wineexplorer.se", OrganizerName = "Wineexplorer AB", Email = "info@wineexplorer.se",
                  HostedEvents = new[] {events[6], events[7], events[8]},
             },
+            new()
+            {
+                UserName = "Ateende@Eventia.se", FirstName ="Namn", LastName ="Namnson", Email = "Ateende@Eventia.se",
+                JoinedEvents = new[] {events[0], events[3], events[6]},
+            },
              new()
             {
-                 UserName = "atendee@Eventia.se", FirstName ="Märta", LastName ="Hjalmarson", Email = "atendee@Eventia.se",
-                 JoinedEvents = new[] {events[0], events[3], events[6]},
+                 UserName = "wannabe@Eventia.se", FirstName ="Namn", LastName ="Namnson", Email = "wannabe@Eventia.se",
+                 JoinedEvents = new[] {events[0], events[3], events[6]}, SeeksOrganizerRole = true
             },
+             new()
+             {
+                 UserName = "wannabe2@Eventia.se", FirstName ="Namn", LastName ="Namnson", Email = "wannabe2@Eventia.se",
+                 JoinedEvents = new[] {events[0], events[3], events[6]}, SeeksOrganizerRole = true
+             },
 
         };
         await _context.AddRangeAsync(events);
@@ -197,12 +207,17 @@ public class DatabaseHandler
         await _userManager.CreateAsync(users[2], "Passw0rd!");
         await _userManager.CreateAsync(users[3], "Passw0rd!");
         await _userManager.CreateAsync(users[4], "Passw0rd!");
+        await _userManager.CreateAsync(users[5], "Passw0rd!");
+        await _userManager.CreateAsync(users[6], "Passw0rd!");
+
 
         await _userManager.AddToRoleAsync(users[0], "Admin");
         await _userManager.AddToRoleAsync(users[1], "Organizer");
         await _userManager.AddToRoleAsync(users[2], "Organizer");
         await _userManager.AddToRoleAsync(users[3], "Organizer");
         await _userManager.AddToRoleAsync(users[4], "User");
+        await _userManager.AddToRoleAsync(users[5], "User");
+        await _userManager.AddToRoleAsync(users[6], "User");
 
         await _context.SaveChangesAsync();
     }

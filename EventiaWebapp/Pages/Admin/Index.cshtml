@@ -25,41 +25,55 @@
 }
 
 <div class="AllEventsMain">
-    <h1>@User.Identity.Name Admin page!</h1>
-    @{if(Model.UsersSeekingOrganizerRole != null)
-    {
-        <div class="accordion accordion-flush" id="accordionFlushExample">
-            @for (var i = 0; i < Model.UsersSeekingOrganizerRole.Count; i++)
-            {
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-heading-@i">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-@i" aria-expanded="false" aria-controls="flush-collapse-@i">
-                            @Model.UsersSeekingOrganizerRole[i].UserName | 
-                        </button>
-                    </h2>
-                    <div id="flush-collapse-@i" class="accordion-collapse collapse" aria-labelledby="flush-headin-@i" data-bs-parent="#accordionFlushExample">
-                        <div class="accordion-body">
+    <h1>Admin page</h1>
+    <h3 class="text-center">@Model.UsersSeekingOrganizerRole.Count pending organizer applications</h3>
 
-                            <h3>Contact @Model.UsersSeekingOrganizerRole[i].Email | </h3>
+    <div class="dropdown">
+        <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            Dropdown button
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+        </ul>
+    </div>
 
-                            <h4>Mer info om ansökan?</h4>
-                            <p class="infoText"></p>
-                            <div class="accordion-upper-body">
-                                <form method="post" asp-route-userId="@Model.UsersSeekingOrganizerRole[i].Id"> <button class="btn btn-dark knapp accordion-join-btn">Confirm user for organizer role</button></form>
-                                <a asp-page="" class="btn btn-dark knapp accordion-join-btn">Decline user for organizer role</a>
-                            </div>
-                        </div>
 
-                    </div>
-                </div>
-            }
-            </div>
-        }
-        else
-        {
-            <h3>No users seeking organizer role</h3>
-        }
+  
+    @{if (Model.UsersSeekingOrganizerRole != null)
+      {
+          <div class="accordion accordion-flush" id="accordionFlushExample">
+              @for (var i = 0; i < Model.UsersSeekingOrganizerRole.Count; i++)
+              {
+                  <div class="accordion-item">
+                      <h2 class="accordion-header" id="flush-heading-@i">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-@i" aria-expanded="false" aria-controls="flush-collapse-@i">
+                              @Model.UsersSeekingOrganizerRole[i].UserName |
+                          </button>
+                      </h2>
+                      <div id="flush-collapse-@i" class="accordion-collapse collapse" aria-labelledby="flush-headin-@i" data-bs-parent="#accordionFlushExample">
+                          <div class="accordion-body">
 
+                              <h3>Contact @Model.UsersSeekingOrganizerRole[i].Email | </h3>
+
+                              <h4>Mer info om ansökan?</h4>
+                              <p class="infoText"></p>
+                              <div class="accordion-upper-body">
+                                  <form method="post" asp-route-userId="@Model.UsersSeekingOrganizerRole[i].Id"> <button class="btn btn-dark knapp accordion-join-btn">Confirm user for organizer role</button></form>
+                                  <a asp-page="" class="btn btn-dark knapp accordion-join-btn">Decline user for organizer role</a>
+                              </div>
+                          </div>
+
+                      </div>
+                  </div>
+              }
+          </div>
+      }
+      else
+      {
+          <h3>No users seeking organizer role</h3>
+      }
     }
-    
+
 </div>

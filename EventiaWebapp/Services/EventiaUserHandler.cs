@@ -44,7 +44,7 @@ namespace EventiaWebapp.Services
         /// Gets a list off all EveniaUsers applying for organizer roles
         /// </summary>
         /// <returns>List of Eventia Users or null</returns>
-        public List<EventiaUser> UsersSeekingOrganizerRole()
+        public List<EventiaUser> GetSeeksOrganizers()
         {
             var usersSeekingOrganizerRole = _context.Users
                 .Where(user => user.SeeksOrganizerRole == true)
@@ -54,6 +54,23 @@ namespace EventiaWebapp.Services
             return usersSeekingOrganizerRole;
 
         }
+
+        /// <summary>
+        /// Gets a list off all EveniaUsers
+        /// </summary>
+        /// <returns>List of all Eventia Users or null</returns>
+        ///
+        public List<EventiaUser> GetEventiaUsers()
+        {
+            var eventiaUsers = _context.Users
+                .ToList();
+
+            if (eventiaUsers == null) return null;
+            return eventiaUsers;
+
+        }
+
+
 
         /// <summary>
         /// Adds the param UserId to Organizer role

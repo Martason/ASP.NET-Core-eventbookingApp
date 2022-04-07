@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 
 namespace EventiaWebapp.Areas.Identity.Pages.Account
 {
+    [AllowAnonymous]
     public class LoginModel : PageModel
     {
         private readonly SignInManager<EventiaUser> _signInManager;

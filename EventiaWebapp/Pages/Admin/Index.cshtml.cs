@@ -19,7 +19,7 @@ namespace EventiaWebapp.Pages.Admin
         public List<EventiaUser> UsersSeekingOrganizerRole { get; set; }
         public void OnGet()
         {
-            UsersSeekingOrganizerRole = _userHandler.UsersSeekingOrganizerRole();
+            UsersSeekingOrganizerRole = _userHandler.GetSeeksOrganizers();
         }
 
         public IActionResult OnPost(string userId)

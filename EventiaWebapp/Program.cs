@@ -3,6 +3,7 @@
 using EventiaWebapp.Models;
 using EventiaWebapp.Services;
 using EventiaWebapp.Services.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,12 +13,20 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<EpicEventsContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("EpicEventsContext")));
+
 builder.Services.AddDefaultIdentity<EventiaUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<EpicEventsContext>();
+
 builder.Services.AddScoped<EventsHandler>();
 builder.Services.AddScoped<DatabaseHandler>();
 builder.Services.AddScoped<EventiaUserHandler>();
+builder.Services.AddAuthorization(options =>
+{
+    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build();
+});
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 #endregion
