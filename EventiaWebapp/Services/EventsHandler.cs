@@ -66,6 +66,27 @@ namespace EventiaWebapp.Services
 
         }
 
+        public bool CancelBooking(int eventId, string userId)
+        {
+            var query = _context.Events
+                .Where(e => e.Id == eventId)
+                .Include(e => e.Attendees);
+
+            var evt = query.FirstOrDefault();
+
+            if (evt == null) return false;
+
+            var attendee = getAttende(userId);
+            if (attendee == null) return false;
+
+            evt.Attendees.Remove(attendee);
+
+            _context.Update(evt);
+            _context.SaveChanges();
+
+            return true;
+
+        }
         public async Task<bool> NewEvent(
             EventiaUser organizer,
             string title,

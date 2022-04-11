@@ -11,6 +11,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+builder.Services.AddScoped<EventsHandler>();
+builder.Services.AddScoped<DatabaseHandler>();
+builder.Services.AddScoped<EventiaUserHandler>();
+
 builder.Services.AddDbContext<EpicEventsContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("EpicEventsContext")));
 
@@ -18,9 +22,6 @@ builder.Services.AddDefaultIdentity<EventiaUser>(options => options.SignIn.Requi
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<EpicEventsContext>();
 
-builder.Services.AddScoped<EventsHandler>();
-builder.Services.AddScoped<DatabaseHandler>();
-builder.Services.AddScoped<EventiaUserHandler>();
 builder.Services.AddAuthorization(options =>
 {
     options.FallbackPolicy = new AuthorizationPolicyBuilder()
@@ -45,11 +46,16 @@ using (var scope = app.Services.CreateScope())
 
     if (app.Environment.IsDevelopment())
     {
-        await database.Recreate();
-        await database.SeedTestData();
-        //await database.RecreateAndSeed();
+        //await database.Recreate();
+        //await database.SeedTestData();
+        await database.RecreateAndSeed();
        // await database.CreateAndSeedTestDataIfNotExist();
         app.UseDeveloperExceptionPage();
+    }
+
+    if (app.Environment.IsProduction())
+    {
+        await database.Migrate();
     }
 }
 
@@ -73,21 +79,22 @@ app.Run();
 
 //TODO metoder
 /*
- * decline application()
- * cancel booking ()
  * SpotsLeft(), see hur många platser varje event har kvar
  */
 
 //TODO funktion
 /*
- * Fixa Usernames
  * Städa upp kod
  * Fixa render TopOfHead på admin sidan...
+ * Fixa Efter man blivit en oganizer så borde det finnas en sida för att lägga till info.
+ * Kanske kan göras i kombination med att man ansöker? 
+ 
  */
 //TODO Style
 /*
  * Fixa dropdownmeny för my account
- * Sixa så sidan funkar lite bättre för web. mediaQueary?
+ * Fixa admin sidan så listor väljs via dropdown meny?
+ * Fixa så sidan funkar lite bättre för web. mediaQueary?
  * Fixa fonten? Fetstil ser inte bra ut
  */
 //TODO felhantera!
@@ -96,4 +103,5 @@ app.Run();
 //TODO Övrigt
 /*
  * Läs på om migration, föreläsning 11/4
+ * Lägg upp på Azure föreläsning 11/4
  */

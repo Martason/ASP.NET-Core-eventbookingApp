@@ -10,16 +10,16 @@ namespace EventiaWebapp.Pages
     public class ConfirmedBookingModel : PageModel
     {
         private readonly EventsHandler _eventsHandler;
-        private readonly UserManager<EventiaUser> _userManager;
+        private readonly UserManager<Models.EventiaUser> _userManager;
 
-        public ConfirmedBookingModel(UserManager<EventiaUser> userManager, EventsHandler eventsHandler)
+        public ConfirmedBookingModel(UserManager<Models.EventiaUser> userManager, EventsHandler eventsHandler)
         {
             _userManager = userManager;
             _eventsHandler = eventsHandler;
         }
 
         public Event Evt { get; set; }
-        public EventiaUser logedInUser { get; set; }
+        public Models.EventiaUser logedInUser { get; set; }
 
         public void OnGet(int eventId)
         {

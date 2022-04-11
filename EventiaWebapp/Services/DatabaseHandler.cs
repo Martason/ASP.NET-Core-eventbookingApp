@@ -1,6 +1,7 @@
 ﻿using EventiaWebapp.Models;
 using EventiaWebapp.Services.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace EventiaWebapp.Services;
 
@@ -10,7 +11,9 @@ public class DatabaseHandler
     private readonly UserManager<EventiaUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
 
-    public DatabaseHandler(EpicEventsContext context, UserManager<EventiaUser> userManager, RoleManager<IdentityRole> roleManager)
+    public DatabaseHandler(EpicEventsContext context,
+        UserManager<EventiaUser> userManager,
+        RoleManager<IdentityRole> roleManager)
     {
         _context = context;
         _userManager = userManager;
@@ -145,37 +148,37 @@ public class DatabaseHandler
         {
             new()
             {
-                UserName = "admin@Eventia.com", Email = "admin@Eventia.com",
+                UserName = "Admin", Email = "admin@Eventia.com",
             },
 
             new()
             {
-                UserName = "info@boardgames.se", OrganizerName = "Boardgames AB", Email = "info@boardgames.se",
+                UserName = "Boardgames", OrganizerName = "Boardgames AB", Email = "info@boardgames.se",
                 HostedEvents = new[] {events[0], events[1], events[2]},
             },
             new()
             {
-                UserName ="info@gymbeast.com", OrganizerName = "Gymbeast AB", Email = "info@gymbeast.com",
+                UserName ="Gymbeast", OrganizerName = "Gymbeast AB", Email = "info@gymbeast.com",
                  HostedEvents = new[] {events[3], events[4], events[5]},
             },
             new()
             {
-                UserName ="info@wineexplorer.se", OrganizerName = "Wineexplorer AB", Email = "info@wineexplorer.se",
+                UserName ="Wineexplorer", OrganizerName = "Wineexplorer AB", Email = "info@wineexplorer.se",
                  HostedEvents = new[] {events[6], events[7], events[8]},
             },
             new()
             {
-                UserName = "Ateende@Eventia.se", FirstName ="Namn", LastName ="Namnson", Email = "Ateende@Eventia.se",
+                UserName = "Ateende", FirstName ="Namn", LastName ="Namnson", Email = "Ateende@Eventia.se",
                 JoinedEvents = new[] {events[0], events[3], events[6]},
             },
              new()
             {
-                 UserName = "wannabe@Eventia.se", FirstName ="Namn", LastName ="Namnson", Email = "wannabe@Eventia.se",
+                 UserName = "Wannabe", FirstName ="Namn", LastName ="Namnson", Email = "wannabe@Eventia.se",
                 
             },
              new()
              {
-                 UserName = "wannabe2@Eventia.se", FirstName ="Namn", LastName ="Namnson", Email = "wannabe2@Eventia.se",
+                 UserName = "Wannabe2", FirstName ="Namn", LastName ="Namnson", Email = "wannabe2@Eventia.se",
              },
 
         };
@@ -252,4 +255,9 @@ public class DatabaseHandler
         var didCreateDatabase = await _context.Database.EnsureCreatedAsync();
         if (didCreateDatabase) await SeedTestData();
     }
+    public async Task Migrate()
+    {
+        await _context.Database.MigrateAsync();
+    }
+
 }

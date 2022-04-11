@@ -28,8 +28,4 @@
     <None Include="wwwroot\images\snowSunset.jpg" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Pages\EventiaUser\" />
-  </ItemGroup>
-
 </Project>

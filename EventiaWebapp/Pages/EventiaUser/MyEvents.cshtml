@@ -44,7 +44,9 @@
                             <p class="infoText">@Model.AttendesEventList[i].InfoShort</p>
                             <div class="accordion-upper-body">
                                 <p class="accordion-organiser">@Model.AttendesEventList[i].Organizer.OrganizerName</p>
-                                <a asp-page="" class="btn btn-dark knapp accordion-join-btn">Cancel booking</a>
+                                <form asp-page-handler="Cancel" method="post" asp-route-EventId="@Model.AttendesEventList[i].Id">
+                                    <button class="btn btn-dark knapp accordion-join-btn">Cancel booking</button>
+                                </form>
                             </div>
                         </div>
 

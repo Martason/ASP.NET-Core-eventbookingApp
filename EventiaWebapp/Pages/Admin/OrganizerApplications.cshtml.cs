@@ -11,9 +11,9 @@ namespace EventiaWebapp.Pages.Admin
     public class OrganizerRequestsModel : PageModel
     {
         private readonly EventiaUserHandler _userHandler;
-        private readonly UserManager<EventiaUser> _userManager;
+        private readonly UserManager<Models.EventiaUser> _userManager;
 
-        public OrganizerRequestsModel(EventiaUserHandler userHandler, UserManager<EventiaUser> userManager)
+        public OrganizerRequestsModel(EventiaUserHandler userHandler, UserManager<Models.EventiaUser> userManager)
         {
             _userHandler = userHandler;
             _userManager = userManager;
@@ -24,13 +24,25 @@ namespace EventiaWebapp.Pages.Admin
         {
             OrganizerApplication = _userHandler.GetSeeksOrganizers();
         }
-        public async Task<IActionResult> OnPost(string applicantId)
+        public async Task<IActionResult> OnPostApprove(string applicantId)
         {
             var logedInAdmin = await _userManager.GetUserAsync(User);
 
             if (await _userHandler.ApproveForOrganizerRole(applicantId, logedInAdmin))
             {
-                return RedirectToPage("./Confirmation", new { applicantId });
+                return RedirectToPage("./ApproveConfirmation", new { applicantId });
+            }
+
+            return NotFound("Something went wrong");
+        }
+
+        public async Task<IActionResult> OnPostDecline(string applicantId)
+        {
+            var logedInAdmin = await _userManager.GetUserAsync(User);
+
+            if (await _userHandler.DeclineForOrganizerRole(applicantId, logedInAdmin))
+            {
+                return RedirectToPage("./DeclineConfirmation", new { applicantId });
             }
 
             return NotFound("Something went wrong");

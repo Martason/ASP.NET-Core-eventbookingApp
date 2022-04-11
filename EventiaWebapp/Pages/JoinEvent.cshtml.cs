@@ -9,9 +9,9 @@ namespace EventiaWebapp.Pages
     public class JoinEventModel : PageModel
     {
         private readonly Services.EventsHandler _eventsHandler;
-        private readonly UserManager<EventiaUser> _userManager;
+        private readonly UserManager<Models.EventiaUser> _userManager;
 
-        public JoinEventModel(Services.EventsHandler eventsHandler, UserManager<EventiaUser> userManager)
+        public JoinEventModel(Services.EventsHandler eventsHandler, UserManager<Models.EventiaUser> userManager)
         {
             _eventsHandler = eventsHandler;
             _userManager = userManager;

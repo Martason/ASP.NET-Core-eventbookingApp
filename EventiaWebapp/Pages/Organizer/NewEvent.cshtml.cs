@@ -12,10 +12,10 @@ namespace EventiaWebapp.Pages.Organizer
     public class NewEventModel : PageModel
     {
       
-        private readonly UserManager<EventiaUser> _userManager;
+        private readonly UserManager<Models.EventiaUser> _userManager;
         private readonly EventsHandler _eventsHandler;
 
-        public NewEventModel(UserManager<EventiaUser> userManager, EventsHandler eventsHandler)
+        public NewEventModel(UserManager<Models.EventiaUser> userManager, EventsHandler eventsHandler)
         {
             _userManager = userManager;
             _eventsHandler = eventsHandler;
