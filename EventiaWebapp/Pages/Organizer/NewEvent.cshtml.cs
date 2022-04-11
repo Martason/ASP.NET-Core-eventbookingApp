@@ -1,17 +1,17 @@
+using System.ComponentModel.DataAnnotations;
 using EventiaWebapp.Models;
 using EventiaWebapp.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Build.Framework;
 
 namespace EventiaWebapp.Pages.Organizer
 {
     [Authorize(Roles = "Organizer")]
     public class NewEventModel : PageModel
     {
-
+      
         private readonly UserManager<EventiaUser> _userManager;
         private readonly EventsHandler _eventsHandler;
 
@@ -21,25 +21,28 @@ namespace EventiaWebapp.Pages.Organizer
             _eventsHandler = eventsHandler;
         }
 
+        [BindProperty]
         public InputModel Input { get; set; }
         public class InputModel
         {
-            [Required]
             public string Title { get; set; }
-            [Required]
+
             public DateTime Date { get; set; }
-            [Required]
+
             public string Place { get; set; }
-            [Required]
+
             public string Adress { get; set; }
-            [Required]
+
+            [Display(Name = "Spots available")]
             public int SpotsAvailable { get; set; }
-         
+
+            [Display(Name = "Long description")]
             public string InfoLong { get; set; }
-       
+
+            [Display(Name = "Short description")]
             public string InfoShort { get; set; }
         }
-        
+
         public void OnGet()
         {
 
@@ -47,31 +50,27 @@ namespace EventiaWebapp.Pages.Organizer
 
         public async Task<IActionResult> OnPost()
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return Page();
+            var logedInOrganizer = await _userManager.GetUserAsync(User);
+
+            if(await _eventsHandler.NewEvent(
+                   logedInOrganizer, 
+                   Input.Title,
+                   Input.Date, 
+                   Input.Place, 
+                   Input.Adress,
+                   Input.SpotsAvailable,
+                   Input.InfoLong,
+                   Input.InfoShort))
             {
-                var LogedInOrganizer = await _userManager.GetUserAsync(User);
+                return RedirectToPage("./Index");
 
-                if(await _eventsHandler.NewEvent(
-                       LogedInOrganizer, 
-                       Input.Title,
-                       Input.Date, 
-                       Input.Place, 
-                       Input.Adress,
-                       Input.SpotsAvailable,
-                       Input.InfoLong,
-                       Input.InfoShort)
-                   )
-                {
-                    return RedirectToPage("./Index");
+            }
 
-                }
-                
-            } 
-            
             return Page();
 
         }
 
-
     }
+
 }

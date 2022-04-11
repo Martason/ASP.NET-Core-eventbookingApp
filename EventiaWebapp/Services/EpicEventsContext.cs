@@ -12,6 +12,7 @@ namespace EventiaWebapp.Services.Data
          }
 
         public DbSet<Event> Events { get; set; }
+        public DbSet<OrganizerApplication> OrganizerApplications { get; set; }
 
         //DbSet<EventiaUser> Users { get; set; } behövs inte! För det görs redan i IdentityDbContext<EventiaUser> 
 

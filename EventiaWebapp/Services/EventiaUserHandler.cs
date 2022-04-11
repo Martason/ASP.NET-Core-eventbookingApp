@@ -35,74 +35,133 @@ namespace EventiaWebapp.Services
         }
 
         /// <summary>
-        /// Sets propperty SeeksOrganizerRole to true 
+        /// Gets a list off all organizers
+        /// </summary>
+        /// <returns>List of all organizers or null</returns>
+        ///
+
+        //TODO hur gör jag för att includa events här?
+
+        public async Task<List<EventiaUser>> GetOrganizers()
+        {
+            var organizers = await _userManager.GetUsersInRoleAsync("Organizer");
+
+            return organizers == null ? null : organizers.ToList();
+        }
+
+        /// <summary>
+        /// Gets a list off all EventiaUsers
+        /// </summary>
+        /// <returns>List of all Eventia Users or null</returns>
+        ///
+        public async Task<List<EventiaUser>> GetEventiaUsers()
+        {
+            var eventiaUsers = await _userManager.GetUsersInRoleAsync("User");
+
+            return eventiaUsers == null ? null : eventiaUsers.ToList();
+        }
+
+        /// <summary>
+        /// Gets a list off all admin personel
+        /// </summary>
+        /// <returns>List of all admin personel or null</returns>
+        ///
+        public async Task<List<EventiaUser>> GetAdmin()
+        {
+            var admin = await _userManager.GetUsersInRoleAsync("Admin");
+
+            return admin == null ? null : admin.ToList();
+        }
+
+        public List<EventiaUser> GetAllUsers()
+        {
+            return _context.Users.ToList();
+        }
+
+        /// <summary>
+        ///     adds an organizerApplication to the eventiaUser
         /// </summary>
         /// <param name="userId"></param>
-        /// <returns>bool true if database change is a success, false if not</returns>
-        public async Task<bool> OrganizerAccountApplication(string userId)
+        /// <returns>The created organizer application or null</returns>
+        public async Task<bool> OrganizerAccountApplication(EventiaUser user)
         {
-            var eventiaUser = await _context.Users
-                .FirstOrDefaultAsync(user => user.Id == userId);
-
-            if (eventiaUser == null) return false;
-
-            eventiaUser.SeeksOrganizerRole = true;
-
-            _context.Update(eventiaUser);
+            var newApplication = new OrganizerApplication
+            {
+                Applicant = user,
+                ApplicationDate = DateTime.Today
+            };
+            
             await _context.SaveChangesAsync();
             return true;
-
-            //TODO använd usermanager istället för context
         }
         /// <summary>
         /// Gets a list off all EveniaUsers applying for organizer roles
         /// </summary>
         /// <returns>List of Eventia Users or null</returns>
-        public List<EventiaUser> GetSeeksOrganizers()
+        public List<OrganizerApplication> GetSeeksOrganizers()
         {
-            var usersSeekingOrganizerRole = _context.Users
-                .Where(user => user.SeeksOrganizerRole == true)
+            var organizationApplications = _context.OrganizerApplications
+                .Where(application => application.Handled == false)
+                .Include(application => application.Applicant)
                 .ToList();
 
-            if (usersSeekingOrganizerRole == null) return null;
-            return usersSeekingOrganizerRole;
+            if (organizationApplications == null) return null;
+
+            return organizationApplications;
 
         }
 
         /// <summary>
-        /// Gets a list off all EveniaUsers
+        /// Adds the param to Organizer role
         /// </summary>
-        /// <returns>List of all Eventia Users or null</returns>
-        ///
-        public List<EventiaUser> GetEventiaUsers()
-        {
-            var eventiaUsers = _context.Users
-                .ToList();
-
-            if (eventiaUsers == null) return null;
-            return eventiaUsers;
-        }
-
-        /// <summary>
-        /// Adds the param UserId to Organizer role
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns>true if succes</returns>
-        public async Task<bool> ApproveForOrganizerRole(string userId)
+        /// <param name="applicantId"></param>
+        /// <param name="admin"></param>
+        /// <returns>true if success</returns>
+        public async Task<bool> ApproveForOrganizerRole(string applicantId, EventiaUser admin)
         {
            var eventiaUser = _context.Users
-                .FirstOrDefault(user => user.Id == userId);
+               .Include(user=>user.Application)
+                .FirstOrDefault(user => user.Id == applicantId);
 
            if (eventiaUser == null) return false;
 
-            //_userManager.RemoveFromRoleAsync(eventiaUser, "User");
-            eventiaUser.SeeksOrganizerRole = false;
-           await _userManager.AddToRoleAsync(eventiaUser, "Organizer");
+            await _userManager.RemoveFromRoleAsync(eventiaUser, "User");
+            await _userManager.AddToRoleAsync(eventiaUser, "Organizer");
+            eventiaUser.Application.Handled = true;
+            eventiaUser.Application.Confirmed = true;
+            eventiaUser.Application.ConfirmedDate = DateTime.Today;
+            eventiaUser.Application.Admin = admin;
+
             _context.Update(eventiaUser);
            await _context.SaveChangesAsync();
 
-            //async?
             return true;
+        }
+
+
+        public async Task<List<EventiaUser>> GetOrganizersAndEvents()
+        {
+
+            
+            var role = _context.Roles.SingleOrDefaultAsync(r => r.NormalizedName == "ORGANIZER");
+
+            var query = from userrole in _context.UserRoles
+                join user in _context.Users on userrole.UserId equals user.Id
+                where userrole.RoleId.Equals(role.Id)
+                select user;
+
+            var organizers = await _userManager.GetUsersInRoleAsync("Organizer");
+            
+            foreach (var organizer in organizers)
+            {
+               await _context.Entry(organizer)
+                    .Collection(b => b.HostedEvents)
+                    .LoadAsync();
+            }
+
+            return organizers.ToList();
+
+
         }
 
     }

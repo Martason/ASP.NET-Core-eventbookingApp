@@ -19,9 +19,9 @@ namespace EventiaWebapp.Pages.Admin
 
         public EventiaUser EventiaUser { get; set; }
       
-        public async Task OnGet(string userId)
+        public async Task OnGet(string applicantId)
         {
-            EventiaUser = await _userHandler.GetEventiaUser(userId);
+            EventiaUser = await _userHandler.GetEventiaUser(applicantId);
         }
     }
 }

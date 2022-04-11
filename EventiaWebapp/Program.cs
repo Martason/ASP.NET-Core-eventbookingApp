@@ -71,11 +71,29 @@ app.Run();
 
 #endregion
 
-//TODO Fixa alla usernames
-//TODO Fixa dropdownmeny
-//TODO ändra från bool till role när man ansöker för org. role?
-//TODO städa upp kod
-//TODO fixa så sidan funkar lite bättre för web. mediaQueary?
+//TODO metoder
+/*
+ * decline application()
+ * cancel booking ()
+ * SpotsLeft(), see hur många platser varje event har kvar
+ */
+
+//TODO funktion
+/*
+ * Fixa Usernames
+ * Städa upp kod
+ * Fixa render TopOfHead på admin sidan...
+ */
+//TODO Style
+/*
+ * Fixa dropdownmeny för my account
+ * Sixa så sidan funkar lite bättre för web. mediaQueary?
+ * Fixa fonten? Fetstil ser inte bra ut
+ */
 //TODO felhantera!
-//TODO Fixa render TopOfHead på admin sidan... 
-//TODO Fixa fonten
+// 1. OrganizerAccountApplication()
+
+//TODO Övrigt
+/*
+ * Läs på om migration, föreläsning 11/4
+ */

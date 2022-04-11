@@ -29,7 +29,6 @@ public class DatabaseHandler
                 Place = "Göteborg",
                 Adress = "Föreningsgatan 14, 411 28 Göteborg",
                 SpotsAvalable = 6,
-                //Organizer = organizers[0],
                 InfoLong =
                     "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.",
                 InfoShort =
@@ -43,7 +42,6 @@ public class DatabaseHandler
                 Place = "Göteborg",
                 Adress = "Föreningsgatan 14, 411 28 Göteborg",
                 SpotsAvalable = 6,
-                //Organizer = organizers[0],
                 InfoLong =
                     "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. ",
                 InfoShort =
@@ -57,7 +55,6 @@ public class DatabaseHandler
                 Place = "Göteborg",
                 Adress = "Föreningsgatan 14, 411 28 Göteborg",
                 SpotsAvalable = 6,
-                //Organizer = organizers[0],
                 InfoLong =
                     "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.",
                 InfoShort =
@@ -71,7 +68,6 @@ public class DatabaseHandler
                 Place = "Göteborg",
                 Adress = "Föreningsgatan 14, 411 28 Göteborg",
                 SpotsAvalable = 6,
-                //Organizer = organizers[1],
                 InfoLong =
                     "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. ",
                 InfoShort =
@@ -85,7 +81,6 @@ public class DatabaseHandler
                 Place = "Göteborg",
                 Adress = "Föreningsgatan 14, 411 28 Göteborg",
                 SpotsAvalable = 15,
-                //Organizer = organizers[1],
                 InfoLong =
                     "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.",
                 InfoShort =
@@ -99,7 +94,6 @@ public class DatabaseHandler
                 Place = "Göteborg",
                 Adress = "Föreningsgatan 14, 411 28 Göteborg",
                 SpotsAvalable = 15,
-                //Organizer = organizers[1],
                 InfoLong =
                     "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.",
                 InfoShort =
@@ -113,7 +107,6 @@ public class DatabaseHandler
                 Place = "Göteborg",
                 Adress = "Föreningsgatan 14, 411 28 Göteborg",
                 SpotsAvalable = 15,
-                //Organizer = organizers[2],
                 InfoLong =
                     "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.",
                 InfoShort =
@@ -127,7 +120,6 @@ public class DatabaseHandler
                 Place = "Göteborg",
                 Adress = "Föreningsgatan 14, 411 28 Göteborg",
                 SpotsAvalable = 15,
-                //Organizer = organizers[2],
                 InfoLong =
                     "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.",
                 InfoShort =
@@ -141,7 +133,6 @@ public class DatabaseHandler
                 Place = "Göteborg",
                 Adress = "Föreningsgatan 14, 411 28 Göteborg",
                 SpotsAvalable = 15,
-                //Organizer = organizers[2],
                 InfoLong =
                     "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.",
                 InfoShort =
@@ -180,17 +171,16 @@ public class DatabaseHandler
              new()
             {
                  UserName = "wannabe@Eventia.se", FirstName ="Namn", LastName ="Namnson", Email = "wannabe@Eventia.se",
-                 JoinedEvents = new[] {events[0], events[3], events[6]}, SeeksOrganizerRole = true
+                
             },
              new()
              {
                  UserName = "wannabe2@Eventia.se", FirstName ="Namn", LastName ="Namnson", Email = "wannabe2@Eventia.se",
-                 JoinedEvents = new[] {events[0], events[3], events[6]}, SeeksOrganizerRole = true
              },
 
         };
-        await _context.AddRangeAsync(events);
 
+        await _context.AddRangeAsync(events);
         var roles = new List<IdentityRole>
             {
                 new() {Name = "Admin"},
@@ -219,6 +209,24 @@ public class DatabaseHandler
         await _userManager.AddToRoleAsync(users[5], "User");
         await _userManager.AddToRoleAsync(users[6], "User");
 
+        var applications = new List<OrganizerApplication>
+        {
+            new()
+            {
+                Applicant = users[5],
+                ApplicationDate = DateTime.Today,
+                Handled = false
+            },
+            new()
+            {
+                Applicant = users[6],
+                ApplicationDate = DateTime.Today,
+                Handled = false
+            }
+        };
+
+       
+        await _context.AddRangeAsync(applications);
         await _context.SaveChangesAsync();
     }
 

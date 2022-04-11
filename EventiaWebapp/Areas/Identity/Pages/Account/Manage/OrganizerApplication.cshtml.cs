@@ -25,9 +25,9 @@ namespace EventiaWebapp.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnPost()
         {
-            var logedInUserId = _userManager.GetUserId(User);
+            var logedInUser = await _userManager.GetUserAsync(User);
 
-            if (await _userHandler.OrganizerAccountApplication(logedInUserId))
+            if (await _userHandler.OrganizerAccountApplication(logedInUser))
             {
                 return RedirectToPage("./ConfirmApplication");
             }

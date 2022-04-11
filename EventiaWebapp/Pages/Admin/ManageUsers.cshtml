@@ -1,16 +1,61 @@
 ﻿@page
+@using EventiaWebapp.Models
+@using Microsoft.AspNetCore.Identity
+@using NuGet.ProjectModel
 @model EventiaWebapp.Pages.Admin.ManageUsersModel
+@inject UserManager<EventiaUser> _userManager
 @{
 }
 
 <h3>Display Users</h3>
-<div class="dropdown">
-    <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-        Dropdown button
-    </button>
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-        <li><a class="dropdown-item" href="#">Action</a></li>
-        <li><a class="dropdown-item" href="#">Another action</a></li>
-        <li><a class="dropdown-item" href="#">Something else here</a></li>
-    </ul>
+
+<h4>All Users</h4>
+<div class="container">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Username</th>
+            <th scope="col">Email</th>
+            <th scope="col">Role</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        @foreach (var user in @Model.AllEventiaUsers)
+        {
+            var roles = await _userManager.GetRolesAsync(user);
+
+            <tr>
+                <th scope="row">@user.UserName</th>
+                <td>@user.Email</td>
+                <td>@roles[0]</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+
+<h4>Organizers</h4>
+<div class="container">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Username</th>
+            <th scope="col">Email</th>
+            @*<th scope="col">Role</th>*@
+            @*<th scope="col">Active hosted events</th>*@
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var organizer in @Model.Organizers)
+        {  
+           <tr>
+                <th scope="row">@organizer.UserName</th>
+                <td>@organizer.Email</td>
+                @*<td>@organizer.HostedEvents.Count</td>*@
+            </tr>
+        }
+        </tbody>
+    </table>
 </div>
