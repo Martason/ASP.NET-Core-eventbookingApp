@@ -1,9 +1,11 @@
 using EventiaWebapp.Models;
 using EventiaWebapp.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace EventiaWebapp.Pages.Admin
 {
+    [Authorize(Roles = "Admin")]
     public class ManageUsersModel : PageModel
     {
         private readonly EventiaUserHandler _userHandler;

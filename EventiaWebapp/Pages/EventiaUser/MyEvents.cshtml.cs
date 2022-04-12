@@ -38,7 +38,7 @@ namespace EventiaWebapp.Pages
 
             if (_eventsHandler.CancelBooking(eventId, logedInUserId))
             {
-                return RedirectToPage("./CancelConfirmation");
+                return RedirectToPage("./CancelConfirmation", new {eventId});
 
             }
 

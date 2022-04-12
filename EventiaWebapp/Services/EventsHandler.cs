@@ -12,6 +12,14 @@ namespace EventiaWebapp.Services
         {
             _context = context;
         }
+
+        public async Task<Event> GetEvent(int eventId)
+        {
+            var evt = await _context.Events
+                .Include(e=>e.Organizer)
+                .FirstOrDefaultAsync(e => e.Id == eventId);
+            return evt ?? null;
+        }
         public List<Event> GetEventList()
         {
             return _context.Events.Include(e => e.Organizer).Include(e=>e.Attendees).ToList();
