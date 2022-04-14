@@ -9,10 +9,14 @@
         laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi
         architecto beatae vitae dicta sunt explicabo.
     </p>
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <div>
+            <a class="btn btn-dark knapp" asp-area="Identity" asp-page="/Account/Register">Register</a>
+            <a class="btn btn-dark knapp" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </div>
+    }
+    
 
-    <div>
-        <a class="btn btn-dark knapp" asp-area="Identity" asp-page="/Account/Register">Register</a>
-        <a class="btn btn-dark knapp" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </div>
 
 </div>

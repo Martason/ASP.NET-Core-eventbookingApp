@@ -17,7 +17,7 @@ builder.Services.AddScoped<EventiaUserHandler>();
 builder.Services.AddScoped<AdminService>();
 
 builder.Services.AddDbContext<EpicEventsContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("EpicEventsContext")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddDefaultIdentity<EventiaUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
