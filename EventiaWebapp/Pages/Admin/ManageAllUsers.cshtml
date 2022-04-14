@@ -1,0 +1,46 @@
+﻿@page
+@using EventiaWebapp.Models
+@using Microsoft.AspNetCore.Identity
+@using NuGet.ProjectModel
+@model EventiaWebapp.Pages.Admin.ManageUsersModel
+@inject UserManager<EventiaUser> _userManager
+@{
+}
+<div class="container-sm">
+    <h3 class="text-center">Manage Users</h3>
+
+    <div class="container">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Username</th>
+                <th scope="col">Email</th>
+                <th scope="col">Role</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            @foreach (var user in Model.AllEventiaUsers)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+
+                <tr>
+                    <th scope="row">@user.UserName</th>
+                    <td>@user.Email</td>
+                    <td>@roles[0]</td>
+                    @if (roles[0] == "Organizer" || roles[0] == "User")
+                    {
+                        <td>
+                            <form method="post" asp-route-UserId="@user.Id">
+                                <button class="btn btn-dark knapp">Handle</button>
+                            </form>
+                        </td>
+                    }
+                
+
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,6 +1,7 @@
 ﻿@page
 @model EventiaWebapp.Areas.Identity.Pages.Account.Manage.ConfirmAplicationModel
+@inject UserManager<EventiaUser> _UserManager
 @{
 }
 
-<p>Applicaion has been sent. A confirmation has been sent to @User.Identity.Name</p>
+<p>Applicaion has been sent. A confirmation has been sent to your Email</p>

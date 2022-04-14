@@ -148,22 +148,22 @@ public class DatabaseHandler
         {
             new()
             {
-                UserName = "Admin", Email = "admin@Eventia.com",
+                UserName = "SuperAdmin", Email = "admin@Eventia.com",
             },
 
             new()
             {
-                UserName = "Boardgames", OrganizerName = "Boardgames AB", Email = "info@boardgames.se",
+                UserName = "BoardgamesAB", OrganizerName = "Boardgames AB", Email = "info@boardgames.se",
                 HostedEvents = new[] {events[0], events[1], events[2]},
             },
             new()
             {
-                UserName ="Gymbeast", OrganizerName = "Gymbeast AB", Email = "info@gymbeast.com",
+                UserName ="GymbeastAB", OrganizerName = "Gymbeast AB", Email = "info@gymbeast.com",
                  HostedEvents = new[] {events[3], events[4], events[5]},
             },
             new()
             {
-                UserName ="Wineexplorer", OrganizerName = "Wineexplorer AB", Email = "info@wineexplorer.se",
+                UserName ="WineexplorerAB", OrganizerName = "Wineexplorer AB", Email = "info@wineexplorer.se",
                  HostedEvents = new[] {events[6], events[7], events[8]},
             },
             new()
@@ -173,12 +173,12 @@ public class DatabaseHandler
             },
              new()
             {
-                 UserName = "Wannabe", FirstName ="Namn", LastName ="Namnson", Email = "wannabe@Eventia.se",
+                 UserName = "WannabeOrganizer", FirstName ="Namn", LastName ="Namnson", Email = "wannabe@Eventia.se",
                 
             },
              new()
              {
-                 UserName = "Wannabe2", FirstName ="Namn", LastName ="Namnson", Email = "wannabe2@Eventia.se",
+                 UserName = "WannabeOrganizer 2", FirstName ="Namn", LastName ="Namnson", Email = "wannabe2@Eventia.se",
              },
 
         };
@@ -214,6 +214,33 @@ public class DatabaseHandler
 
         var applications = new List<OrganizerApplication>
         {
+            new()
+            {
+                Applicant = users[1],
+                ApplicationDate = new DateTime(2022,04,01),
+                Handled = true,
+                Confirmed = true,
+                ConfirmedDate = new DateTime(2022,04,13),
+                Admin = users[0]
+            },
+            new()
+            {
+                Applicant = users[2],
+                ApplicationDate = new DateTime(2022,04,01),
+                Handled = true,
+                Confirmed = true,
+                ConfirmedDate = new DateTime(2022,04,13),
+                Admin = users[0]
+            },
+            new()
+            {
+                Applicant = users[3],
+                ApplicationDate = new DateTime(2022,04,01),
+                Handled = true,
+                Confirmed = true,
+                ConfirmedDate = new DateTime(2022,04,13),
+                Admin = users[0]
+            },
             new()
             {
                 Applicant = users[5],

@@ -14,6 +14,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddScoped<EventsHandler>();
 builder.Services.AddScoped<DatabaseHandler>();
 builder.Services.AddScoped<EventiaUserHandler>();
+builder.Services.AddScoped<AdminService>();
 
 builder.Services.AddDbContext<EpicEventsContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("EpicEventsContext")));
@@ -46,9 +47,9 @@ using (var scope = app.Services.CreateScope())
 
     if (app.Environment.IsDevelopment())
     {
-        //await database.Recreate();
-        //await database.SeedTestData();
-        await database.RecreateAndSeed();
+        await database.Recreate();
+        await database.SeedTestData();
+        //await database.RecreateAndSeed();
        // await database.CreateAndSeedTestDataIfNotExist();
         app.UseDeveloperExceptionPage();
     }
@@ -93,7 +94,7 @@ app.Run();
 //TODO Style
 /*
  * Fixa dropdownmeny för my account
- * Fixa admin sidan så listor väljs via dropdown meny?
+ * Fixa admin ManageAllUser sidan så listor visas per role väljs via dropdown meny. Alt är sorterade
  * Fixa så sidan funkar lite bättre för web. mediaQueary?
  * Fixa fonten? Fetstil ser inte bra ut
  */

@@ -1,0 +1,34 @@
+﻿@page
+@model EventiaWebapp.Pages.Admin.HandleUserModel
+@{
+}
+<h2>@Model.UserToHandleRole</h2>
+<h3>@Model.UserToHandle.UserName | @Model.UserToHandle.Email </h3>
+
+<div class="container">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Hosted events</th>
+            <th scope="col">Confirmed organizer</th>
+            <th scope="col">Confirmed by admin</th>
+        </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <th scope="row">@Model.UserToHandle.HostedEvents.Count</th>
+                <td>@Model.UserToHandle.Application.ConfirmedDate.ToString("f")</td>
+                <td>@Model.UserToHandle.Application.Admin.UserName</td>
+                <td>
+                    <form asp-page-handler="UserAccountChange" method="post" asp-route-UserId="@Model.UserToHandle.Id">
+                        <button class="btn btn-dark knapp accordion-join-btn">Change to Eventia User account</button>
+                    </form>
+                </td>
+
+            </tr>
+        
+        </tbody>
+    </table>
+</div>
+

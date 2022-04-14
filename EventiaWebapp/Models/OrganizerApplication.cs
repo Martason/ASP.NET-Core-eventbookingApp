@@ -9,8 +9,10 @@ namespace EventiaWebapp.Models
 
         public bool Confirmed { get; set; }
         public bool Declined { get; set; }
-
         public bool Handled { get; set; }
+
+        public bool Changed { get; set; }
+
         public DateTime ConfirmedDate { get; set; }
         public DateTime DeclinedDate { get; set; }
         public DateTime ApplicationDate { get; set; }
@@ -22,5 +24,7 @@ namespace EventiaWebapp.Models
 
         [InverseProperty("Application")]
         public EventiaUser Applicant { get; set; }
+
+        public AccountChange? AccountChange { get; set; }
     }
 }

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace EventiaWebapp.Pages
 {
-    [Authorize]
+    [Authorize(Roles = "User")]
     public class MyEventsModel : PageModel
     {
       

@@ -10,14 +10,12 @@ namespace EventiaWebapp.Services
     {
         private readonly EpicEventsContext _context;
         private readonly UserManager<EventiaUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
 
 
         public EventiaUserHandler(EpicEventsContext context, UserManager<EventiaUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _context = context;
             _userManager = userManager;
-            _roleManager = roleManager;
         }
 
         /// <summary>
@@ -34,17 +32,17 @@ namespace EventiaWebapp.Services
 
         }
 
-        /// <summary>
-        /// Gets a list off all organizers
-        /// </summary>
-        /// <returns>List of all organizers or null</returns>
-        ///
-        public async Task<List<EventiaUser>> GetOrganizers()
-        {
-            var organizers = await _userManager.GetUsersInRoleAsync("Organizer");
-
-            return organizers == null ? null : organizers.ToList();
-        }
+        // /// <summary>
+        // /// Gets a list off all organizers
+        // /// </summary>
+        // /// <returns>List of all organizers or null</returns>
+        // ///
+        // public async Task<List<EventiaUser>> GetOrganizers()
+        // {
+        //     var organizers = await _userManager.GetUsersInRoleAsync("Organizer");
+        //
+        //     return organizers == null ? null : organizers.ToList();
+        // }
 
         /// <summary>
         /// Gets a list off all EventiaUsers
@@ -83,12 +81,26 @@ namespace EventiaWebapp.Services
 
             return users.ToList();
         }
-
         /// <summary>
-        /// Get users and HostedEvents
+        /// Gets organizer included HostedEvents and organizer application
         /// </summary>
         /// <returns>List of EventiaUsers</returns>
-        public async Task<List<EventiaUser>> GetOgranizersAndHostedEvents()
+        public async Task<EventiaUser> GetOrganizer(EventiaUser organizer)
+        {
+            var user = await _context.Users
+                .Include(u => u.HostedEvents)
+                .Include(u => u.Application)
+                .ThenInclude(a=>a.Admin)
+                .FirstOrDefaultAsync(u => u.Id == organizer.Id);
+
+            return user;
+        }
+
+        /// <summary>
+        /// Get users with the organizer role included HostedEvents
+        /// </summary>
+        /// <returns>List of EventiaUsers</returns>
+        public async Task<List<EventiaUser>> GetOrganizer()
         {
             var organizers = await _userManager.GetUsersInRoleAsync("Organizer");
 
@@ -105,6 +117,7 @@ namespace EventiaWebapp.Services
         /// Get a list of all users in the datebase
         /// </summary>
         /// <returns>A list of EventiaUsers</returns>
+        //TODO Denna behöver inte vara asynch va?
         public List<EventiaUser> GetAllUsers()
         {
             return _context.Users
@@ -197,29 +210,6 @@ namespace EventiaWebapp.Services
             await _context.SaveChangesAsync();
 
             return true;
-        }
-
-        public async Task<List<EventiaUser>> GetOrganizersAndEvents()
-        {
-            // var role = _context.Roles.SingleOrDefaultAsync(r => r.NormalizedName == "ORGANIZER");
-            //
-            // var query = from userrole in _context.UserRoles
-            //     join user in _context.Users on userrole.UserId equals user.Id
-            //     where userrole.RoleId.Equals(role.Id)
-            //     select user;
-
-            var organizers = await _userManager.GetUsersInRoleAsync("Organizer");
-            
-            foreach (var organizer in organizers)
-            {
-               await _context.Entry(organizer)
-                    .Collection(b => b.HostedEvents)
-                    .LoadAsync();
-            }
-
-            return organizers.ToList();
-
-
         }
 
     }
