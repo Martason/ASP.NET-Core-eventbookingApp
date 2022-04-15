@@ -43,6 +43,7 @@ using (var scope = app.Services.CreateScope())
     if (app.Environment.IsProduction())
     {
         await database.CreateIfNotExist();
+        await database.Migrate();
     }
 
     if (app.Environment.IsDevelopment())
@@ -54,10 +55,6 @@ using (var scope = app.Services.CreateScope())
         app.UseDeveloperExceptionPage();
     }
 
-    if (app.Environment.IsProduction())
-    {
-        await database.Migrate();
-    }
 }
 
 app.UseStaticFiles();
@@ -88,7 +85,8 @@ app.Run();
  * Städa upp kod
  * Fixa render TopOfHead på admin sidan...
  * Fixa Efter man blivit en oganizer så borde det finnas en sida för att lägga till info.
- * Kanske kan göras i kombination med att man ansöker? 
+ * Alternativ att det bör göras i kombination med att man ansöker?
+ * Admin bör kunna ta bort Attendekonton
  
  */
 //TODO Style
@@ -99,10 +97,12 @@ app.Run();
  * Fixa fonten? Fetstil ser inte bra ut
  */
 //TODO felhantera!
-// 1. OrganizerAccountApplication()
+// 1. Känns som att jag inte fokuserat alls på detta i denna uppgift. 
 
 //TODO Övrigt
 /*
  * Läs på om migration, föreläsning 11/4
  * Lägg upp på Azure föreläsning 11/4
+ * Gå igenom och fixa med variablen namn, känns rörigt just nu
+ * Se över mina sevices.
  */

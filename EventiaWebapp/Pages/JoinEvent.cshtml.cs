@@ -48,7 +48,7 @@ namespace EventiaWebapp.Pages
 
             if (_eventsHandler.ConfirmBooking(eventId, logedInUserId))
             {
-                return RedirectToPage("ConfirmedBooking", new {eventId});
+                return RedirectToPage("/EventiaUser/ConfirmedBooking", new {eventId});
             }
 
             return NotFound("Something went wrong");

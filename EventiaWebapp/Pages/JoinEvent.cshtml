@@ -36,19 +36,29 @@
                 if (Model.AlreadyBooked)
                 {
                     <li class="list-group-item"><strong>You are already booked to this event</strong></li>
-                }}
+                }
+                else if (User.IsInRole("Admin"))
+                {
+                    <li class="list-group-item"><strong>You have an admin account and cannot sign up for events</strong></li>
+                }
+                else if (User.IsInRole("Organizer"))
+                {
+                    <li class="list-group-item"><strong>You have an organizer account and cannot sign up for events</strong></li>
+                }
+            }
         </ul>
         <div class="card-buttons">
             @{
-                if (Model.AlreadyBooked)
+                if (User.IsInRole("User") && Model.AlreadyBooked)
                 {
                     <a asp-page="MyEvents" class="btn btn-dark knapp">My Events</a>
                 }
-                else
+                else if (User.IsInRole("User") && !Model.AlreadyBooked)
                 {
                     <form method="post" asp-route-eventId="@Model.Evt.Id">
                         <button class="btn btn-dark knapp">Join this event</button>
                     </form>
+                    
                 }
                 <a asp-controller="Events" asp-action="Index" class="btn btn-dark knapp">Back</a>
             }
