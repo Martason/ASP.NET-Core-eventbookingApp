@@ -86,6 +86,7 @@ app.Run();
  * Fixa render TopOfHead på admin sidan...
  * Fixa Efter man blivit en oganizer så borde det finnas en sida för att lägga till info.
  * Alternativ att det bör göras i kombination med att man ansöker?
+ * Måste hantera om en user blir en organizer också, vad händer med de events man redan signat upp sig på
  * Admin bör kunna ta bort Attendekonton
  
  */
