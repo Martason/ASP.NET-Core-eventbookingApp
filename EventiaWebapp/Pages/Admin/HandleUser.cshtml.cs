@@ -30,11 +30,21 @@ namespace EventiaWebapp.Pages.Admin
             {
                 UserToHandle = await _userHandler.GetOrganizer(user);
             }
+
+            else if (UserToHandleRole == "User")
+            {
+                UserToHandle = await _userHandler.GetEventiaUser(user);
+            }
         }
         public async Task<IActionResult> OnPostUserAccountChange(string userId)
         {
             return RedirectToPage("./UserAccountChange", new{userId});
         }
+        public async Task<IActionResult> OnPostDeleteUser(string userId)
+        {
+            return RedirectToPage("./DeleteUser", new { userId });
+        }
+        
 
     }
 }
