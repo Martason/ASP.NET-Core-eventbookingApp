@@ -1,21 +1,17 @@
-﻿@page "{eventId:int}" //TODO va fan är detta och hur hör 
+﻿@page "{eventId:int}"
 @model EventiaWebapp.Pages.JoinEventModel
-
-
-@*TODO flytta dessa*@
 @section bottom_of_head{
     <style>
-        .card {
-            border: none;
-        }
-        .card-body {
-            margin: auto 20px auto 20px;
-        }
+        .card { border: none; }
+
+        .card-body { margin: auto 20px auto 20px; }
+
         .card-buttons {
             display: flex;
             flex-direction: row;
             justify-content: center;
         }
+
         .card-img-top {
             border: black solid 2px;
             margin: auto 20px auto 20px;
@@ -24,22 +20,49 @@
 }
 
 <div class="joinEventMainDiv">
-<h1>Join Epic Event</h1>
+    <h1>Join Epic Event</h1>
 
-<div class="card" style="width: 18rem;">
-    <img src="@Model.Evt.Picture" class="card-img-top" alt="picture not found">
-    <div class="card-body">
-        <h5 class="card-title">@Model.Evt.Title</h5>
-        <p class="card-text infoText">@Model.Evt.InfoLong</p>
+    <div class="card" style="width: 18rem;">
+        <img src="@Model.Evt.Picture" class="card-img-top" alt="picture not found">
+        <div class="card-body">
+            <h5 class="card-title">@Model.Evt.Title</h5>
+            <p class="card-text infoText">@Model.Evt.InfoLong</p>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">@Model.Evt.Date.ToString("f")</li>
+            <li class="list-group-item">Spots: @Model.Evt.SpotsAvalable</li>
+            <li class="list-group-item">Brought to you by @Model.Evt.Organizer.UserName</li>
+            @{
+                if (Model.AlreadyBooked)
+                {
+                    <li class="list-group-item"><strong>You are already booked to this event</strong></li>
+                }
+                else if (User.IsInRole("Admin"))
+                {
+                    <li class="list-group-item"><strong>You have an admin account and cannot sign up for events</strong></li>
+                }
+                else if (User.IsInRole("Organizer"))
+                {
+                    <li class="list-group-item"><strong>You have an organizer account and cannot sign up for events</strong></li>
+                }
+            }
+        </ul>
+        <div class="card-buttons">
+            @{
+                if (User.IsInRole("User") && Model.AlreadyBooked)
+                {
+                    <a asp-page="MyEvents" class="btn btn-dark knapp">My Events</a>
+                }
+                else if (User.IsInRole("User") && !Model.AlreadyBooked)
+                {
+                    <form method="post" asp-route-eventId="@Model.Evt.Id">
+                        <button class="btn btn-dark knapp">Join this event</button>
+                    </form>
+                    
+                }
+                <a asp-controller="Events" asp-action="Index" class="btn btn-dark knapp">Back</a>
+            }
+
+        </div>
     </div>
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item">@Model.Evt.Date.ToString("f")</li>
-        <li class="list-group-item">Spots: @Model.Evt.SpotsAvalable</li>
-        <li class="list-group-item">Brought to you by @Model.Evt.Organizer.Name</li>
-    </ul>
-    <div class="card-buttons">
-        <form method="post" asp-route-evtId="@Model.Evt.Id"> <button class="btn btn-dark knapp">Join this event</button></form>
-        <a asp-controller="Events" asp-action="Index" class="btn btn-dark knapp">Back</a>
-    </div>
-</div>
 </div>

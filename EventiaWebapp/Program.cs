@@ -3,84 +3,109 @@
 using EventiaWebapp.Models;
 using EventiaWebapp.Services;
 using EventiaWebapp.Services.Data;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-//builder.Services finns i både razor och mvp men använder olika metoder
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-builder.Services.AddDbContext<EpicEventsContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("EpicEventsContext")));
-builder.Services.AddScoped<EventsHandler>(); //service registrerad, med i systemet och jag kan plocka fram det i mitt program.
-//builder.Services.AddTransient<DatabaseHandler>();
+builder.Services.AddScoped<EventsHandler>();
 builder.Services.AddScoped<DatabaseHandler>();
+builder.Services.AddScoped<EventiaUserHandler>();
+builder.Services.AddScoped<AdminService>();
+
+builder.Services.AddDbContext<EpicEventsContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddDefaultIdentity<EventiaUser>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<EpicEventsContext>();
+
+builder.Services.AddAuthorization(options =>
+{
+    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build();
+});
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
-
 
 #endregion
 
-#region Fas 2 - middleware pipelining 
+#region Fas 2 - middleware pipelining
 
- var app = builder.Build();
-
-//   var databaseHandler = app.Services.GetService<DatabaseHandler>();
-//   databaseHandler.Recreate();
-//   databaseHandler.SeedTestData();
+var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
     var database = scope.ServiceProvider.GetRequiredService<DatabaseHandler>();
     if (app.Environment.IsProduction())
     {
-        await database.CreateIfNotExist();
+
+        await database.Migrate();
     }
 
     if (app.Environment.IsDevelopment())
     {
+        //await database.Migrate();
+        //await database.Recreate();
+        //await database.SeedTestData();
+        //await database.RecreateAndSeed();
         await database.CreateAndSeedTestDataIfNotExist();
         app.UseDeveloperExceptionPage();
     }
-}
 
+}
 
 app.UseStaticFiles();
 app.UseRouting();
 
-//Mappning
+app.UseAuthentication();
+app.UseAuthorization();
 
+app.MapControllerRoute(name: "default", pattern: "{controller}/{action=Index}");
 
-//Mest generella routen sist, 
-
-//Login/
-app.MapControllerRoute(
-    name: "Login",
-    pattern: "Login",
-    defaults: new { controller = "Login", action = "Index" }
-);
-
-// Default route
-//
-app.MapControllerRoute(
-name: "default",
-pattern: "{controller}/{action=Index}"
-);
-
-//specifick för Razor pages. Mappar via folder strukturen
 app.MapRazorPages();
-
-//MatGet sätter route (pathname från js) och vilken endpoint som ska nås genom att sökvägen används i url:n
-
-//app.MapGet("/", () => "Under construction");
 
 #endregion
 
-#region Fas 3 - server 
-
+#region Fas 3 - server
 
 app.Run();
 
 #endregion
+
+//TODO metoder
+/*
+ * SpotsLeft(), see hur många platser varje event har kvar
+ * Redigera event
+ */
+
+//TODO funktion
+/*
+ * Städa upp kod
+ * Fixa render TopOfHead på admin sidan...
+ * Fixa Efter man blivit en oganizer så borde det finnas en sida för att lägga till info.
+ * Alternativ att det bör göras i kombination med att man ansöker?
+ * Måste hantera om en user blir en organizer också, vad händer med de events man redan signat upp sig på
+ * Admin bör kunna ta bort Attendekonton
+ 
+ */
+//TODO Style
+/*
+ * Fixa dropdownmeny för my account
+ * Fixa admin ManageAllUser sidan så listor visas per role väljs via dropdown meny. Alt är sorterade
+ * Fixa så sidan funkar lite bättre för web. mediaQueary?
+ * Fixa fonten? Fetstil ser inte bra ut
+ */
+//TODO felhantera!
+// 1. Känns som att jag inte fokuserat alls på detta i denna uppgift. 
+
+//TODO Övrigt
+/*
+ * Lägg upp på Azure föreläsning 11/4
+ * Gå igenom och fixa med variablen namn, känns rörigt just nu
+ * Se över mina sevices.
+ */

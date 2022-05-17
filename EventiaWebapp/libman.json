@@ -51,6 +51,13 @@
         "js/bootstrap.min.js",
         "js/bootstrap.min.js.map"
       ]
+    },
+    {
+      "library": "popper.js@2.11.5",
+      "destination": "wwwroot/lib/bootstrap/popper.js/",
+      "files": [
+        "umd/popper.min.js"
+      ]
     }
   ]
 }

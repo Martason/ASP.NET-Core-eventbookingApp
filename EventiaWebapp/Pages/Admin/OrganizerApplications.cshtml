@@ -1,0 +1,44 @@
+﻿@page
+@model EventiaWebapp.Pages.Admin.OrganizerRequestsModel
+@{
+}
+
+<h3 class="text-center">@Model.OrganizerApplication.Count pending organizer applications</h3>
+@{if (Model.OrganizerApplication != null || Model.OrganizerApplication.Count > 0)
+  {
+      <div class="accordion accordion-flush" id="accordionFlushExample">
+          @for (var i = 0; i < Model.OrganizerApplication.Count; i++)
+          {
+              <div class="accordion-item">
+                  <h2 class="accordion-header" id="flush-heading-@i">
+                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-@i" aria-expanded="false" aria-controls="flush-collapse-@i">
+                          @Model.OrganizerApplication[i].Applicant.UserName |
+                      </button>
+                  </h2>
+                  <div id="flush-collapse-@i" class="accordion-collapse collapse" aria-labelledby="flush-headin-@i" data-bs-parent="#accordionFlushExample">
+                      <div class="accordion-body">
+
+                          <h3>Contact @Model.OrganizerApplication[i].Applicant.Email | </h3>
+
+                          <h4>Mer info om ansökan?</h4>
+                          <p class="infoText"></p>
+                          <div class="accordion-upper-body">
+                              <form asp-page-handler="Approve" method="post" asp-route-applicantId="@Model.OrganizerApplication[i].Applicant.Id">
+                                  <button class="btn btn-dark knapp accordion-join-btn">Approve user for organizer role</button>
+                              </form>
+                              <form asp-page-handler="Decline" method="post" asp-route-applicantId="@Model.OrganizerApplication[i].Applicant.Id">
+                                  <button class="btn btn-dark knapp accordion-join-btn">Decline user for organizer role</button>
+                              </form>
+                          </div>
+                      </div>
+
+                  </div>
+              </div>
+          }
+      </div>
+  }
+  else
+  {
+      <h3>No users seeking organizer role</h3>
+  }
+}

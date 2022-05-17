@@ -4,39 +4,35 @@
 @section bottom_of_head{
     <style>
 
-        .accordion-item * {
-            font-size: 20px;
-        }
+        .accordion-item * { font-size: 20px; }
+
         .accordion-upper-body {
             display: flex;
             justify-content: space-between
         }
-       
+
         .accordion-button:not(.collapsed) {
-            color: #642188;
             background-color: #e2fafc;
-            border-color: #212529;
             border: solid 1px #212529;
+            border-color: #212529;
+            color: #642188;
         }
-       
-        .accordion-button:focus {
-            box-shadow: none;
-        }
+
+        .accordion-button:focus { box-shadow: none; }
     </style>
 }
 
-@inject EventsHandler _eventHandler
+@inject EventsHandler _eventHandler;
+
 
 <div class="AllEventsMain">
 
     <h1>Upcoming events!</h1>
 
-    @{ var eventList = _eventHandler.GetEventList();
-    }
+    @{ var eventList = _eventHandler.GetEventList(); }
     <div class="accordion accordion-flush" id="accordionFlushExample">
-        @for (int i = 0; i < eventList.Count; i++)
+        @for (var i = 0; i < eventList.Count; i++)
         {
-        
             <div class="accordion-item">
                 <h2 class="accordion-header" id="flush-heading-@i">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-@i" aria-expanded="false" aria-controls="flush-collapse-@i">
@@ -45,17 +41,17 @@
                 </h2>
                 <div id="flush-collapse-@i" class="accordion-collapse collapse" aria-labelledby="flush-headin-@i" data-bs-parent="#accordionFlushExample">
                     <div class="accordion-body">
-                    
+
                         <h3>@eventList[i].Title | @eventList[i].Date.ToString("M") | @eventList[i].Place</h3>
 
-                        <h4> Seats: @eventList[i].SpotsAvalable Time @eventList[i].Date.ToString("t")</h4>    
+                        <h4> Seats: @eventList[i].SpotsAvalable Time @eventList[i].Date.ToString("t")</h4>
                         <p class="infoText">@eventList[i].InfoShort</p>
                         <div class="accordion-upper-body">
-                            <p class="accordion-organiser">@eventList[i].Organizer.Name</p>
+                            <p class="accordion-organiser">@eventList[i].Organizer.UserName</p>
                             <a asp-page="/JoinEvent" asp-route-eventId="@eventList[i].Id" class="btn btn-dark knapp accordion-join-btn">Join</a>
                         </div>
                     </div>
-              
+
                 </div>
             </div>
         }

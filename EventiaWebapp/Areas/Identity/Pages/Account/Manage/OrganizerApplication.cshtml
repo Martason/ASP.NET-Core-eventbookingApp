@@ -1,0 +1,39 @@
+﻿@page
+@model EventiaWebapp.Areas.Identity.Pages.Account.Manage.OrganizerApplicationModel
+@inject UserManager<EventiaUser> _userManager
+@{
+}
+@{
+    ViewData["Title"] = "Organizer Account";
+    ViewData["ActivePage"] ="";
+}
+
+<h3>@ViewData["Title"]</h3>
+
+@{
+    if (User.IsInRole("Organizer"))
+    {
+        <p>
+            You already have an organizer account
+        </p>
+    }
+    else if (User.IsInRole("Admin"))
+    {
+        <p>
+            You have an admin account
+        </p>
+    }
+    else
+    {
+        <p>
+            Do you wish to send in an request for a organizer account?
+        </p>
+
+        <form method="post">
+            <button type="submit" class="btn btn-dark knapp">Make me an organizer!</button>
+        </form>
+    }
+}
+
+
+   

@@ -1,0 +1,40 @@
+﻿@page
+@model EventiaWebapp.Pages.EventiaUser.CancelConfirmationModel
+@section bottom_of_head{
+    <style>
+        .card {
+            border: none;
+        }
+        .card-body {
+            margin: auto 20px auto 20px;
+            
+        }
+        .card-buttons {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+    </style>
+}
+
+<div class="joinEventMainDiv">
+    <h1> Booking has been canceled !</h1>
+
+    <div class="card" style="width: 18rem;">
+        <img src="@Model.CancelEvent.Picture" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">@Model.CancelEvent.Title</h5>
+            <p class="card-text infoText">Booking canceled!<br/>
+                An email has been sent to @Model.LogedInUser.Email with cancel confirmation</p>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">@Model.CancelEvent.Date.ToString("f")</li>
+            <li class="list-group-item">Spots: @Model.CancelEvent.SpotsAvalable</li>
+            <li class="list-group-item">Brought to you by @Model.CancelEvent.Organizer.UserName</li>
+        </ul>
+        <div class="card-buttons">
+            <a asp-page="/EventiaUser/MyEvents" class="btn btn-dark knapp">My Events</a>
+            <a asp-controller="Events" asp-action="Index" class="btn btn-dark knapp">All Events</a>
+        </div>
+    </div>
+</div>

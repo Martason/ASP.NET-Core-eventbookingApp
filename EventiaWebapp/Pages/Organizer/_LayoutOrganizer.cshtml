@@ -1,0 +1,26 @@
+﻿
+@{
+    
+        Layout = "_MainLayout";
+    
+   
+}
+
+<h1>Organizer page</h1>
+
+<div>
+    <hr />
+    <div class="row">
+        <div class="col-md-3">
+            <partial name="_ManageNavOrganizer" />
+        </div>
+        <div class="col-md-9">
+            @RenderBody()
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}
+

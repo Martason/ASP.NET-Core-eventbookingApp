@@ -1,0 +1,18 @@
+﻿@page
+@model EventiaWebapp.Pages.Admin.UserAccountChangeModel
+@{
+    <h1>User account change</h1>
+    if (@Model.UserToHandleRole == "Organizer")
+    {
+        <h3>Do you want to change @Model.UserToHandle.UserName back to an normal eventia user account?</h3>
+        <p>This will enable them from oganizing more event. They can still book to attend event</p>
+        <div>
+        <form asp-page-handler="ChangeOrganizerAccount" method="post" asp-route-userToHandleId="@Model.UserToHandle.Id">
+            <button class="btn btn-dark knapp accordion-join-btn">Confirm</button>
+        </form>
+        <a asp-page="./ManageAllUsers" class="btn btn-dark knapp">Cancel</a>
+        </div>
+
+
+    }
+}

@@ -1,7 +1,6 @@
 ﻿using EventiaWebapp.Models;
 using EventiaWebapp.Services.Data;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace EventiaWebapp.Services
 {
@@ -13,51 +12,115 @@ namespace EventiaWebapp.Services
         {
             _context = context;
         }
+
+        public async Task<Event> GetEvent(int eventId)
+        {
+            var evt = await _context.Events
+                .Include(e=>e.Organizer)
+                .FirstOrDefaultAsync(e => e.Id == eventId);
+            return evt ?? null;
+        }
         public List<Event> GetEventList()
         {
             return _context.Events.Include(e => e.Organizer).Include(e=>e.Attendees).ToList();
         }
+        
+        /// <summary>
+        /// Gets the joined events for a specified EventiaUser from the database
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>List of Joined Events including orginizers for that user</returns>
+        public List<Event> GetEventList(string userId)
+        { 
+            var attendee = _context.Users
+                .Include(u=>u.JoinedEvents)
+                .ThenInclude(e=>e.Organizer)
+                .FirstOrDefault(user => user.Id == userId);
 
-        public List<Attendee> GetAttendees()
-        {
-            return _context.Attendees.Include(a=>a.Event).ThenInclude(e=>e.Organizer).ToList();
+           if (attendee == null) return null;
+
+            return attendee.JoinedEvents.ToList();
+
         }
 
-        public bool ConfirmBooking(int eventId)
+        public EventiaUser getAttende(string userId)
         {
-            var query = _context.Events.Where(e => e.Id == eventId).Include(e => e.Attendees);
+            var attende = _context.Users
+                .Where(u => u.Id == userId)
+                .Include(u => u.JoinedEvents);
+            return attende.FirstOrDefault();
+        }
+
+        public bool ConfirmBooking(int eventId, string userId)
+        {
+            var query = _context.Events
+                .Where(e => e.Id == eventId)
+                .Include(e => e.Attendees);
 
             var evt = query.FirstOrDefault();
+
             if (evt == null) return false;
 
-            var query2 = _context.Attendees.Include(a => a.Event);
-            var attendee = query2.FirstOrDefault();
-
+            var attendee = getAttende(userId);
             if (attendee == null) return false;
 
-            attendee.Event.Add(evt);
+            evt.Attendees.Add(attendee);
             // Räcker med att uppdatera en. 
 
-            _context.Update(attendee);
+            _context.Update(evt);
             _context.SaveChanges();
 
             return true;
 
-            //TODO Query 2 va fan?! :P Veroica och Joakim
         }
 
-        public List<Event> GetEventList(int attendeId)
+        public bool CancelBooking(int eventId, string userId)
         {
+            var query = _context.Events
+                .Where(e => e.Id == eventId)
+                .Include(e => e.Attendees);
 
-            var query = _context.Attendees
-                .Include(a => a.Event);
+            var evt = query.FirstOrDefault();
 
-            if (!query.Any()) return null;
+            if (evt == null) return false;
 
-            var attende = query.FirstOrDefault(a => a.Id == attendeId);
+            var attendee = getAttende(userId);
+            if (attendee == null) return false;
 
-            return attende.Event.ToList();
+            evt.Attendees.Remove(attendee);
+
+            _context.Update(evt);
+            _context.SaveChanges();
+
+            return true;
+
         }
+        public async Task<bool> NewEvent(
+            EventiaUser organizer,
+            string title,
+            DateTime date,
+            string place,
+            string adress,
+            int spotsAvalale,
+            string infoLong,
+            string infoShort)
+        {
+            var newEvent = new Event
+            {
+                Title = title,
+                Date = date,
+                Place = place,
+                Adress = adress,
+                SpotsAvalable = spotsAvalale,
+                InfoLong = infoLong,
+                InfoShort = infoShort,
+                Organizer = organizer
+            };
 
+            await _context.Events.AddAsync(newEvent);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
     }
 }

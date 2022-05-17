@@ -45,12 +45,14 @@
         }
 
         .homeMain {
+            margin: auto;
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
             text-align: center;
             height: 500px;
+            max-width: 800px;
             font-size: 15px;
         }
 
@@ -71,5 +73,22 @@
         .infoText {
             font-family: 'Montserrat', sans-serif;
         }
+
+        .nav-pills .nav-link {
+             color: #642188;
+        }
+
+         .nav-pills .nav-link.hover {
+             color: #642188;
+             text-shadow: 4px 4px #e2fafc;
+         }
+
+         .nav-pills .nav-link.active {
+             color: white;
+             background-color: #642188
+         }
+                 
+
+
 
 
