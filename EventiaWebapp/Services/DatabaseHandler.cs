@@ -286,5 +286,5 @@ public class DatabaseHandler
     {
         await _context.Database.MigrateAsync();
     }
-
+    //Kan bli svårare att seeda om databasen
 }

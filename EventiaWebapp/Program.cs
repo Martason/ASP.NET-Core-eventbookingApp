@@ -29,6 +29,7 @@ builder.Services.AddAuthorization(options =>
         .RequireAuthenticatedUser()
         .Build();
 });
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 #endregion
@@ -42,16 +43,17 @@ using (var scope = app.Services.CreateScope())
     var database = scope.ServiceProvider.GetRequiredService<DatabaseHandler>();
     if (app.Environment.IsProduction())
     {
-        await database.CreateIfNotExist();
+
         await database.Migrate();
     }
 
     if (app.Environment.IsDevelopment())
     {
-        await database.Recreate();
-        await database.SeedTestData();
+        //await database.Migrate();
+        //await database.Recreate();
+        //await database.SeedTestData();
         //await database.RecreateAndSeed();
-       // await database.CreateAndSeedTestDataIfNotExist();
+        await database.CreateAndSeedTestDataIfNotExist();
         app.UseDeveloperExceptionPage();
     }
 
@@ -78,6 +80,7 @@ app.Run();
 //TODO metoder
 /*
  * SpotsLeft(), see hur många platser varje event har kvar
+ * Redigera event
  */
 
 //TODO funktion
@@ -102,7 +105,6 @@ app.Run();
 
 //TODO Övrigt
 /*
- * Läs på om migration, föreläsning 11/4
  * Lägg upp på Azure föreläsning 11/4
  * Gå igenom och fixa med variablen namn, känns rörigt just nu
  * Se över mina sevices.

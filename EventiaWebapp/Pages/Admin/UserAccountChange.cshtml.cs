@@ -20,6 +20,7 @@ namespace EventiaWebapp.Pages.Admin
             _adminService = adminService;
             _userHandler = userHandler;
         }
+
         public Models.EventiaUser UserToHandle { get; set; }
         public string UserToHandleRole { get; set; }
 
@@ -35,6 +36,7 @@ namespace EventiaWebapp.Pages.Admin
             }
 
         }
+        //anledningen till att jag inte kunde skicka med infon?
 
         public async Task<RedirectToPageResult> OnPostChangeOrganizerAccount(string userToHandleId)
         {

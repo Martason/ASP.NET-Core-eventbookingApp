@@ -36,6 +36,8 @@ namespace EventiaWebapp.Pages.Admin
                 UserToHandle = await _userHandler.GetEventiaUser(user);
             }
         }
+        //Inte använda POST här? Update och Delete? Eller Nej pga vi använder ingen API här? 
+        //Bond property, gör att jag kan skriva över och skicka med till nästa
         public async Task<IActionResult> OnPostUserAccountChange(string userId)
         {
             return RedirectToPage("./UserAccountChange", new{userId});
