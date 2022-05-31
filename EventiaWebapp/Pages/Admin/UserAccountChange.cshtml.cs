@@ -36,7 +36,6 @@ namespace EventiaWebapp.Pages.Admin
             }
 
         }
-        //anledningen till att jag inte kunde skicka med infon?
 
         public async Task<RedirectToPageResult> OnPostChangeOrganizerAccount(string userToHandleId)
         {
